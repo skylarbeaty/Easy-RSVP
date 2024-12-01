@@ -1,5 +1,5 @@
 from app import app, db
-from flask import request, jsonify
+from flask import request, jsonify, session, make_response
 from models import User, Event, RSVP, Response
 import bcrypt
 from datetime import datetime
@@ -75,6 +75,49 @@ def delete_user(id):
         db.session.rollback()
         return jsonify({"error":str(e)}), 500
     
+#endregion
+
+#region Auth
+
+# Login
+@app.route("/api/auth/login", methods=["POST"])
+def login():
+    try:
+        data = request.json
+        email = data.get("email")
+        password = data.get("password")
+
+        if not email or not password:
+            return jsonify({"error":"Email and password required"}), 400
+        
+        user = User.query.filter_by(email=email).first()
+        if not user or not bcrypt.checkpw(password.encode("utf-8"), user.password_hash):
+            return jsonify({"error":"Invalid email or password"}), 401
+        
+        session["user_id"] = user.id
+        return jsonify({"message":"Login successful", "user":user.to_json()})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+# Get Current User
+@app.route("/api/auth/me", methods=["GET"])
+def current_user():
+    user_id = session.get("user_id")
+    if not user_id:
+        return jsonify({"error":"Not authenticated"}), 401
+    
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({"error":"User not found"}), 404
+    
+    return jsonify({"user":user.to_json()}), 200
+
+# Logout
+@app.route("/api/auth/logout", methods=["POST"])
+def logout():
+    session.pop("user_id", None)
+    return jsonify({"message":"Logout successful"}), 200
+
 #endregion
 
 #region Events
