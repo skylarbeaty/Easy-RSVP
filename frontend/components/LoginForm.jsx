@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { apiFetch as api } from "@/utils/api";
+import { api } from "@/utils/api";
+import Link from 'next/link';
 
-const LoginForm = ({ onLogin }) => {
+const LoginForm = ({ onLogin = () => {} }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -9,9 +10,7 @@ const LoginForm = ({ onLogin }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try{
-        const res = await api("/auth/login",{ 
-            method: "POST", 
-            body: JSON.stringify({email, password})});
+        const res = await api.post("/auth/login", {email, password});
         onLogin(res.user);
     } catch(error){
         setError(error.toString());
@@ -19,9 +18,10 @@ const LoginForm = ({ onLogin }) => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-        <h2 className="text-center">Login</h2>
-        <div className="text-center">
+    <form onSubmit={handleSubmit} className="login-form">
+        <p className="text-center">Please enter your details to login</p>
+        <p className="text-center">If you don't have an accout: <Link className="navbar-link" href="/signup">Sign up</Link></p>
+        <div className="text-center login-field">
             <label>Email:</label>
             <input
                 type="email"
@@ -31,7 +31,7 @@ const LoginForm = ({ onLogin }) => {
                 onChange={(e) => setEmail(e.target.value)}
             />
         </div>
-        <div className="text-center">
+        <div className="text-center login-field">
             <label>Password:</label>
             <input 
                 type="password"
@@ -42,9 +42,9 @@ const LoginForm = ({ onLogin }) => {
             />
         </div>
         <div className="text-center">
-            <button type="submit">Login</button>
+            <button className="form-button" type="submit">Login</button>
         </div>
-        {error && <p style={{color: "red"}} className="text-center">{error}</p>}
+        {error && <p className="text-center error-text">{error}</p>}
     </form>
   )
 }

@@ -20,9 +20,7 @@ export async function apiFetch(url, options = {}){
 
 export const api = {
     get: (url, options = {}) => apiFetch(url, { method: "GET", ...options}),
-    post: (url, options = {}) => {
-        console.log("Request body:", body); // Debugging
-        apiFetch(url, { method: "POST", body: JSON.stringify(body), ...options})},
-    put: (url, options = {}) => apiFetch(url, { method: "PUT", body: JSON.stringify(body), ...options}),
+    post: (url, body, options = {}) => apiFetch(url, { method: "POST", body: JSON.stringify(body), ...options}),
+    patch: (url, body, options = {}) => apiFetch(url, { method: "PATCH", body: JSON.stringify(body), ...options}),
     delete: (url, options = {}) => apiFetch(url, { method: "DELETE", ...options}),
 }

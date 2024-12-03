@@ -1,10 +1,10 @@
 "use client"
 
 import { useState, useEffect } from "react";
+import { api } from "@utils/api";
 import Nav from "@components/Nav";
 import LoginForm from "@components/LoginForm";
 import CreateEventForm from "@components/CreateEventForm";
-import { api } from "@utils/api";
 
 const Home = () => {
   const [user, setUser] = useState(null);
@@ -25,9 +25,13 @@ const Home = () => {
     setUser(userData);
   };
 
+  const handleLogout = (userDate) => {
+    setUser(null);
+  }
+
   return (
     <section>
-      <Nav />
+      <Nav user = {user} onLogout={handleLogout} />
       <><br /></>
       <h1 className="header text-center">RS<span className="gradient">EZ</span></h1>
       <p className="text-center">The easy way to share RSVPs</p>
@@ -40,7 +44,7 @@ const Home = () => {
       ) : (
         <>
           <p className="text-center">Login to create an event</p>
-          <LoginForm onLogin={handleLogin}/>
+          <LoginForm onLogin={handleLogin} />
         </>
       )}
     </section>

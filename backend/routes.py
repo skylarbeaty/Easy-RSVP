@@ -1,5 +1,6 @@
 from app import app, db
 from flask import request, jsonify, session, make_response
+from functools import wraps
 from models import User, Event, RSVP, Response
 import bcrypt
 from datetime import datetime
@@ -118,6 +119,15 @@ def logout():
     session.pop("user_id", None)
     return jsonify({"message":"Logout successful"}), 200
 
+def login_required(func):
+    @wraps(func)
+    def decorated_function(*args, **kwargs):
+        user_id = session.get("user_id")
+        if not user_id:
+            return jsonify({"error":"Authentication required"}), 401
+        return func(*args, **kwargs)
+    return decorated_function
+
 #endregion
 
 #region Events
@@ -148,27 +158,38 @@ def get_user_events(user_id):
 
 # Create an event
 @app.route("/api/events", methods=["POST"])
+@login_required
 def creat_event():
     try:
         data = request.json
-
-        required = ["creatorId", "title", "dateTime"]
+        
+        # Check for required fields
+        required = ["title", "dateTime"]
         for field in required:
             if field not in data:
-                return jsonify({"error": f"Missing required field {field}"})
-            
+                return jsonify({"error": f"Missing required field {field}"}),400
+
+        # Validate datetime format
         try:
-            date_time = datetime.strptime(data["dateTime"], "%Y-%m-%d %H:%M:%S")
+            date_time = datetime.fromisoformat(data["dateTime"])
         except ValueError:
             return jsonify({"error":"Invalid date format"}), 400
         
+        # Validate RSVP Deadline datetime format
+        rsvp_deadline = None
+        if "rsvpDeadline" in data and data["rsvpDeadline"]:
+            try:
+                rsvp_deadline = datetime.fromisoformat(data["rsvpDeadline"])
+            except ValueError:
+                return jsonify({"error":"Invalid RSVP deadline format"}), 400
+        
         new_event = Event(
-            creator_id=data["creatorId"],
+            creator_id=session["user_id"],
             title=data["title"],
             description=data.get("description"),
             date_time=date_time,
             location=data.get("location"),
-            rsvp_deadline=data.get("rsvpDeadline"),
+            rsvp_deadline=rsvp_deadline,
             max_guests=data.get("maxGuests"),
         )
         db.session.add(new_event)
@@ -188,17 +209,33 @@ def update_event(id):
         
         data = request.json
 
-        if "dateTime" in data:
+        # Check for required fields
+        required = ["title", "dateTime"]
+        for field in required:
+            if field not in data:
+                return jsonify({"error": f"Missing required field {field}"}),400
+        if data["title"] == "":
+            return jsonify({"error": "Title field cannot be blank"}), 400
+
+        # Validate datetime format
+        try:
+            date_time = datetime.fromisoformat(data["dateTime"])
+        except ValueError:
+            return jsonify({"error":"Invalid date format"}), 400
+        
+        # Validate RSVP Deadline datetime format
+        rsvp_deadline = None
+        if "rsvpDeadline" in data and data["rsvpDeadline"]:
             try:
-                date_time = datetime.strptime(data["dateTime"], "%Y-%m-%d %H:%M:%S")
+                rsvp_deadline = datetime.fromisoformat(data["rsvpDeadline"])
             except ValueError:
-                return jsonify({"error":"Invalid date format"}), 400
+                return jsonify({"error":"Invalid RSVP deadline format"}), 400
             
         event.title = data.get("title", event.title)
         event.description = data.get("description", event.description)
-        event.date_time = data.get(date_time, event.date_time)
+        date_time=date_time
         event.location = data.get("location", event.location)
-        event.rsvp_deadline = data.get("rsvpDeadline", event.rsvp_deadline)
+        rsvp_deadline=rsvp_deadline
         event.max_guests = data.get("maxGuests", event.max_guests)
 
         db.session.commit()
