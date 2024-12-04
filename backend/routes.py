@@ -295,8 +295,6 @@ def get_user_rsvps(user_id):
 @app.route("/api/rsvps/event/<int:event_id>/summary", methods=["GET"])
 def get_event_rsvp_summary(event_id):
     rsvps = RSVP.query.filter_by(event_id=event_id).all()
-    if not rsvps:
-        return jsonify({"message":"No RSVPs found for that event"}), 404
     
     summary = {
         "yes": sum(1 for rsvp in rsvps if rsvp.response == Response.yes),

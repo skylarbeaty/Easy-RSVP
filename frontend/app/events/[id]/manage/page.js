@@ -41,7 +41,7 @@ const ManageEvent = () => {
             <h1 className="text-center">Manage Event: {event.title}</h1>
             <><br /></>
             <h2 className="text-center">RSVP Responses</h2>
-            <RSVPList />
+            <RSVPList eventId={event.id}/>
             <><br /></>
             <div className="text-center">
                 <button onClick={() => navigator.clipboard.writeText(`${window.location.origin}/events/${id}`)}>
