@@ -1,17 +1,23 @@
+"use client"
+
 import { useState } from "react";
 import { api } from "@/utils/api";
 import Link from 'next/link';
+import { useUserUpdate } from "@components/AppWrapper";
 
-const LoginForm = ({ onLogin = () => {} }) => {
+const LoginForm = ({ onLogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  const userUpdate = useUserUpdate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try{
         const res = await api.post("/auth/login", {email, password});
-        onLogin(res.user);
+        userUpdate(res.user);
+        onLogin();
     } catch(error){
         setError(error.toString());
     }

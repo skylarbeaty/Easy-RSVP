@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { api } from "@/utils/api";
+import { useUserUpdate } from "@components/AppWrapper";
 
 const SignUpForm = ({ onSignUp = () => {} }) => {
     const [name, setName] = useState("");
@@ -7,6 +8,8 @@ const SignUpForm = ({ onSignUp = () => {} }) => {
     const [password, setPassword] = useState("");
     const [passwordCheck, setPasswordCheck] = useState("");
     const [error, setError] = useState("");
+
+    const userUpdate = useUserUpdate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -16,8 +19,9 @@ const SignUpForm = ({ onSignUp = () => {} }) => {
         }
             
         try{
-            const resSignUp = await api.post("/users",{name, email, password});
-            const resLogIn = await api.post("/auth/login",{email, password});
+            await api.post("/users",{name, email, password});
+            const resLogin = await api.post("/auth/login",{email, password});
+            userUpdate(resLogin.user);
             onSignUp();
         } catch(error){
             setError(error.toString());

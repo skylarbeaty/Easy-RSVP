@@ -1,9 +1,8 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import Link from 'next/link';
 import { useParams } from "next/navigation";
+import Link from 'next/link';
 import { api } from "@utils/api";
 import UpdateEventForm from "@components/UpdateEventForm";
 import RSVPList from "@components/RSVPList";

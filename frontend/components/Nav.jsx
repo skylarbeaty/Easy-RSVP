@@ -1,17 +1,25 @@
-import Link from 'next/link';
-import { apiFetch as api } from "@/utils/api";
+"use client"
 
-const Nav = ({ user, onLogout }) => {
+import Link from 'next/link';
+import { useRouter } from "next/navigation";
+import { api } from "@/utils/api";
+import { useUser, useUserUpdate } from "@components/AppWrapper";
+
+const Nav = () => {
+  const user = useUser();
+  const userUpdate = useUserUpdate();
+  const router = useRouter();
+
   const handleLogout = async() => {
     try{
-      await api("/auth/logout", { 
-        method: "POST", 
-        body: JSON.stringify({})});
-      onLogout();
+      await api.post("/auth/logout");
+      userUpdate(null);
+      router.push("/login");
     }catch(error){
       console.error("Logout failed:", error);
     }
   }
+  
   return (
     <nav className='navbar'>
       <div className='navbar-left'>
