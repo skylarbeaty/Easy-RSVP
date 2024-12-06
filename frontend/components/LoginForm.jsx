@@ -1,5 +1,6 @@
 "use client"
 
+import "@styles/forms.css";
 import { useState } from "react";
 import { api } from "@/utils/api";
 import Link from 'next/link';

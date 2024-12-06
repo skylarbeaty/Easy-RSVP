@@ -1,5 +1,6 @@
 "use client"
 
+import "@styles/Nav.css";
 import Link from 'next/link';
 import { useRouter } from "next/navigation";
 import { api } from "@/utils/api";
@@ -34,7 +35,7 @@ const Nav = () => {
       <div className='navbar-right'>
         {user? (
           <>
-            <Link href="/user" className='navbar-link'>Profile</Link>
+            <Link href="/profile" className='navbar-link'>Profile</Link>
             <button className='navbar-button' onClick={handleLogout}>Logout</button>
           </>
         ):(          

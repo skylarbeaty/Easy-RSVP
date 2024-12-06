@@ -148,9 +148,9 @@ def get_event(id):
     return jsonify(event.to_json())
 
 # Get all events by user ID
-@app.route("/api/events/<int:user_id>", methods=["GET"])
+@app.route("/api/events/user/<int:user_id>", methods=["GET"])
 def get_user_events(user_id):
-    events = Event.query.filter_by(user_id=user_id).all()
+    events = Event.query.filter_by(creator_id=user_id).all()
     if events is None:
         return jsonify({"error":"Event not found"}), 404
     result = [event.to_json() for event in events]

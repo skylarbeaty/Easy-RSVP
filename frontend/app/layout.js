@@ -1,4 +1,4 @@
-import "@app/globals.css";
+import "@styles/globals.css";
 import AppWrapper from "@components/AppWrapper";
 import Nav from "@components/Nav";
 
