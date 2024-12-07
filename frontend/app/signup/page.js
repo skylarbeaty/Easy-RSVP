@@ -11,7 +11,7 @@ const SignUp = () => {
     }
     
     return (
-        <section>
+        <section className="justify-center">
             <h2 className="text-center">Welcome to RSEZ</h2>
             <SignUpForm onSignUp={handleSignUp} />
         </section>

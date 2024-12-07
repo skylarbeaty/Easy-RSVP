@@ -12,10 +12,12 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <AppWrapper>
-          <Nav />
           <main className="app">
+              <Nav />
               <><br /></>
-              {children}
+              <div className="app-inner">
+                {children}
+              </div>
           </main>
         </AppWrapper>
       </body>

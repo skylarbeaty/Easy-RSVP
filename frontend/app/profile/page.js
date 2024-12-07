@@ -1,23 +1,30 @@
 "use client"
 
+import "@styles/forms.css";
+import { useState } from "react";
 import { useUser } from "@components/AppWrapper";
+import { api } from "@utils/api";
 import EventList from "@components/EventList";
 import UserRSVPList from "@components/UserRSVPList";
+import UserUpdateForm from "@components/UserUpdateForm";
 
 const Profile = () => {
   const user = useUser();
 
+  if (!user){
+    return <div>Loading..</div>
+  }
+
   return (
     <section>
       <h1>Profile</h1>
-      <br></br>
-      <label>Name:</label>
-      <p>{user.name}</p>
-      <label>Email:</label>
-      <p>{user.email}</p>
-      <label>User since:</label>
-      <p>{user.dateCreated}</p>
+      <><br /></>
+      <UserUpdateForm />
+      <><br /></>
+      <h1>Your Events</h1>
       <EventList />
+      <><br /></>
+      <h1>Your RSVPs</h1>
       <UserRSVPList />
     </section>
   )

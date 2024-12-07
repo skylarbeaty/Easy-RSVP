@@ -8,7 +8,7 @@ const Home = () => {
   const user = useUser();
 
   return (
-    <section>
+    <section className="justify-center">
       <h1 className="header text-center">RS<span className="gradient">EZ</span></h1>
       <p className="text-center">The easy way to share RSVPs</p>
       <><br /></>

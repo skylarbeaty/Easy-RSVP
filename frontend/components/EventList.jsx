@@ -1,5 +1,6 @@
 "use client"
 
+import "@styles/tables.css";
 import { useEffect, useState } from "react";
 import { api } from "@/utils/api";
 import { useUser } from "@components/AppWrapper";
@@ -24,13 +25,32 @@ const EventList = () => {
     }, [user])
 
     return (
-        <ul>
+        <table className="event-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Date</th>
+                    <th>Summary</th>
+                    <th>Manage Event</th>
+                    <th>Event Page</th>
+                </tr>
+            </thead>
+            <tbody>
             {events.map((event) => (
-                <li key={event.id}>
-                    {event.title}, {event.dateTime}
-                </li>
+                <tr key={event.id}>
+                    <td>{event.title}</td>
+                    <td>{event.dateTime}</td>
+                    <td>
+                        Yes: {event.rsvpSummary.yes}, 
+                        No: {event.rsvpSummary.no}, 
+                        Maybe: {event.rsvpSummary.maybe}
+                    </td>
+                    <td><a>Manage</a></td>
+                    <td><a>View</a></td>
+                </tr>
             ))}
-        </ul>
+            </tbody>
+        </table>
     )
 }
 

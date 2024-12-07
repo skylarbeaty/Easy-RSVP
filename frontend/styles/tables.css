@@ -1,0 +1,36 @@
+.event-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 0.8rem;
+    text-align: left;
+}
+
+.event-table th,
+.event-table td {
+    padding:10px;
+    border: 1px solid #ddd;
+}
+
+.event-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.event-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.event-table tr:hover{
+    background-color: #f1f1f1;
+}
+
+.event-table a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.event-table a:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}

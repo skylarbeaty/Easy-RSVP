@@ -5,79 +5,6 @@ from models import User, Event, RSVP, Response
 import bcrypt
 from datetime import datetime
 
-#region Users
-
-# Get all users
-@app.route("/api/users",methods=["GET"])
-def get_users():
-    users = User.query.all()
-    result = [user.to_json() for user in users]
-    return jsonify(result)
-
-# Create a user
-@app.route("/api/users",methods=["POST"])
-def create_user():
-    try:
-        data = request.json
-
-        required = ["name","email","password"]
-        for field in required:
-            if field not in data:
-                return jsonify({"error":f"Missing required field: {field}"}), 400
-
-        name = data.get("name")
-        email = data.get("email")
-        password = data.get("password")
-        hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-
-        existing_user = User.query.filter_by(email=email).first()
-        if existing_user:
-            return jsonify({"error": "Email already in use"}), 400
-
-        new_user = User(name=name, email=email, password_hash=hashed)
-        db.session.add(new_user)
-        db.session.commit()
-        return jsonify(new_user.to_json()), 201
-    except Exception as e:
-        db.session.rollback()
-        return jsonify({"An unexpected error occurred":str(e)}), 500
-
-# Update a user
-@app.route("/api/users/<int:id>", methods=["PATCH"])
-def update_user(id):
-    try:
-        user = User.query.get(id)
-        if user is None:
-            return jsonify({"error":"User not found"}), 404
-        
-        data = request.json
-        user.name = data.get("name", user.name)
-        user.email = data.get("email", user.email)
-        user.password_hash = data.get("password", user.password_hash)
-
-        db.session.commit()
-        return jsonify({"User updated successfully":user.to_json()}), 200
-    except Exception as e:
-        db.session.rollback()
-        return jsonify({"error":str(e)}), 500
-    
-# Delete a user
-@app.route("/api/users/<int:id>", methods=["DELETE"])
-def delete_user(id):
-    try:
-        user = User.query.get(id)
-        if user is None:
-            return jsonify({"error":"User not found"}), 404
-        
-        db.session.delete(user)
-        db.session.commit()
-        return jsonify({"message":"User deleted"}), 200
-    except Exception as e:
-        db.session.rollback()
-        return jsonify({"error":str(e)}), 500
-    
-#endregion
-
 #region Auth
 
 # Login
@@ -130,6 +57,93 @@ def login_required(func):
 
 #endregion
 
+#region Users
+
+# Get all users
+@app.route("/api/users",methods=["GET"])
+def get_users():
+    users = User.query.all()
+    result = [user.to_json() for user in users]
+    return jsonify(result)
+
+# Create a user
+@app.route("/api/users",methods=["POST"])
+def create_user():
+    try:
+        data = request.json
+
+        required = ["name","email","password"]
+        for field in required:
+            if field not in data:
+                return jsonify({"error":f"Missing required field: {field}"}), 400
+
+        name = data.get("name")
+        email = data.get("email")
+        password = data.get("password")
+        hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+
+        existing_user = User.query.filter_by(email=email).first()
+        if existing_user:
+            return jsonify({"error": "Email already in use"}), 400
+
+        new_user = User(name=name, email=email, password_hash=hashed)
+        db.session.add(new_user)
+        db.session.commit()
+        return jsonify(new_user.to_json()), 201
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"An unexpected error occurred":str(e)}), 500
+
+# Update a user
+@app.route("/api/users/<int:id>", methods=["PATCH"])
+@login_required
+def update_user(id):
+    try:
+        user = User.query.get(id)
+        if user is None:
+            return jsonify({"error":"User not found"}), 404
+        if user.id is not session["user_id"]:
+            return jsonify({"error":"User doesnt match authenticated user"}), 400
+        
+        data = request.json
+        password_current = data.get("passwordCurrent")
+        name_new = data.get("name", user.name)
+        email_new = data.get("email", user.email)
+
+        if not name_new or name_new == "":
+            return jsonify({"error":"Name cannot be blank"}), 400
+        if not email_new or email_new == "":
+            return jsonify({"error":"Email cannot be blank"}), 400
+        if not bcrypt.checkpw(password_current.encode("utf-8"), user.password_hash):
+            return jsonify({"error":"Invalid current password"}), 401
+        
+        user.name = name_new
+        user.email = email_new
+        user.password_hash = data.get("passwordNew", user.password_hash)
+
+        db.session.commit()
+        return jsonify({"User updated successfully":user.to_json()}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error":str(e)}), 500
+    
+# Delete a user
+@app.route("/api/users/<int:id>", methods=["DELETE"])
+def delete_user(id):
+    try:
+        user = User.query.get(id)
+        if user is None:
+            return jsonify({"error":"User not found"}), 404
+        
+        db.session.delete(user)
+        db.session.commit()
+        return jsonify({"message":"User deleted"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error":str(e)}), 500
+    
+#endregion
+
 #region Events
 
 # Get all events
@@ -153,8 +167,20 @@ def get_user_events(user_id):
     events = Event.query.filter_by(creator_id=user_id).all()
     if events is None:
         return jsonify({"error":"Event not found"}), 404
-    result = [event.to_json() for event in events]
-    return jsonify(result)
+    
+    results = []
+    for event in events:
+        rsvps = RSVP.query.filter_by(event_id=event.id).all()
+        summary = {
+            "yes": sum(1 for rsvp in rsvps if rsvp.response == Response.yes),
+            "no": sum(1 for rsvp in rsvps if rsvp.response == Response.no),
+            "maybe": sum(1 for rsvp in rsvps if rsvp.response == Response.maybe)
+        }
+        event_json = event.to_json()
+        event_json["rsvpSummary"] = summary
+        results.append(event_json)
+
+    return jsonify(results)
 
 # Create an event
 @app.route("/api/events", methods=["POST"])

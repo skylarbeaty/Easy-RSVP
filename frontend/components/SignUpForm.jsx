@@ -32,10 +32,9 @@ const SignUpForm = ({ onSignUp = () => {} }) => {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="login-form">
+        <form onSubmit={handleSubmit}>
             <p className="text-center">Please enter your details to sign up</p>
-            <div className="text-center login-field">
-                <label>Name:</label>
+            <div className="form-group">
                 <input
                     type="name"
                     autoComplete="name"
@@ -43,10 +42,9 @@ const SignUpForm = ({ onSignUp = () => {} }) => {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                 />
+                <label>Name:</label>
             </div>
-            <><br /></>
-            <div className="text-center login-field">
-                <label>Email:</label>
+            <div className="form-group">
                 <input
                     type="email"
                     autoComplete="email"
@@ -54,10 +52,9 @@ const SignUpForm = ({ onSignUp = () => {} }) => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
+                <label>Email:</label>
             </div>
-            <><br /></>
-            <div className="text-center login-field">
-                <label>Password:</label>
+            <div className="form-group">
                 <input 
                     type="password"
                     autoComplete="current-password"
@@ -65,9 +62,9 @@ const SignUpForm = ({ onSignUp = () => {} }) => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
+                <label>Password:</label>
             </div>
-            <div className="text-center login-field">
-                <label>Confirm Password:</label>
+            <div className="form-group">
                 <input 
                     type="password"
                     autoComplete="current-password"
@@ -75,11 +72,12 @@ const SignUpForm = ({ onSignUp = () => {} }) => {
                     value={passwordCheck}
                     onChange={(e) => setPasswordCheck(e.target.value)}
                 />
+                <label>Confirm Password:</label>
             </div>
+            {error && <p className="text-center error-message">{error}</p>}
             <div className="text-center">
                 <button className="form-button" type="submit">Sign Up</button>
             </div>
-            {error && <p className="text-center error-text">{error}</p>}
         </form>
       )
 }

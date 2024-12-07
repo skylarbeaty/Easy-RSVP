@@ -11,7 +11,7 @@ const Login = () => {
     }
 
     return (
-        <section>
+        <section className="justify-center">
             <h2 className="text-center">Welcome Back</h2>
             <LoginForm onLogin={handleLogin}/>
         </section>

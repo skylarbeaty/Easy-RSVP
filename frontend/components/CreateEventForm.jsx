@@ -50,61 +50,72 @@ const CreateEventForm = () => {
   }
   
   return (
-    <form onSubmit={handleSubmit} className="login-form">
+    <form onSubmit={handleSubmit}>
         <p className="text-center">Please enter the event information:</p>
-        <p className="text-center">* indicates a required field</p>
-        <div className="login-field">
-            <label>*Event Title:</label>
+        <div className="form-group">
             <input
-              type="title"
-              autoComplete="title"
-              placeholder="Name of the event"
+              type="text"
+              id="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+              placeholder=" "
             />
+            <label htmlFor="title">Event Title*</label>
         </div>
-        <div className="login-field">
-            <label>Description:</label>
+
+        <div className="form-group">
             <textarea
+              id="description"
               placeholder="Brief description of event"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
+            <label htmlFor="description">Description</label>
         </div>
-        <div className="login-field">
-            <label>*Date and Time:</label>
+
+        <div className="form-group">
             <input
               type="datetime-local"
+              id="dateTime"
               value={dateTime}
               onChange={(e) => setDateTime(e.target.value)}
             />
+            <label htmlFor="dateTime">Date and Time*</label>
         </div>
-        <div className="text-center login-field">
-            <label>Location:</label>
+
+        <div className="form-group">
             <input
               type="text"
+              id="location"
               placeholder="123 Main st"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
             />
+            <label htmlFor="location">Location</label>
         </div>
-        <div className="text-center login-field">
-            <label>RSVP Deadline:</label>
+
+        <div className="form-group">
             <input
               type="datetime-local"
+              id="deadline"
               value={rsvpDeadline}
               onChange={(e) => setRsvpDeadline(e.target.value)}
             />
+            <label htmlFor="deadline">RSVP Deadline</label>
         </div>
-        <div className="text-center login-field">
-            <label>Max Guests:</label>
+
+        <div className="form-group">
             <input
               type="number"
+              id="maxGuests"
               placeholder="42"
               value={maxGuests}
               onChange={(e) => setMaxGuests(e.target.value)}
             />
+            <label htmlFor="maxGuests">Max Guests</label>
         </div>
+        
+        <p className="text-center">* indicates a required field</p>
         {success && <p className="text-center succes-text">Event created successfully</p>}
         {error && <p className="text-center success-text">{error}</p>}
         <div className="text-center">

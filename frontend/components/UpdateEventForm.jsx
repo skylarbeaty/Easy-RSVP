@@ -1,8 +1,8 @@
 "use client"
 
 import "@styles/forms.css";
-import { useState } from "react"
-import { api } from "@utils/api"
+import { useState } from "react";
+import { api } from "@utils/api";
 
 const UpdateEventForm = ({ event }) => {
     const[title, setTitle] = useState(event.title);
@@ -34,7 +34,6 @@ const UpdateEventForm = ({ event }) => {
             await api.patch(`/events/${event.id}`, body);
             setSuccess(true);
             setError("");
-            // onUpdate();
         }catch(error){
             setError(error.message || "Failed to update event.")
         }
