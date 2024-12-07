@@ -4,7 +4,7 @@ import "@styles/forms.css";
 import { useState } from "react";
 import { api } from "@utils/api";
 
-const UpdateEventForm = ({ event }) => {
+const EventUpdateForm = ({ event }) => {
     const[title, setTitle] = useState(event.title);
     const[description, setDescription] = useState(event.description || "");
     const[dateTime, setDateTime] = useState(formatDateToInput(event.dateTime));
@@ -41,7 +41,7 @@ const UpdateEventForm = ({ event }) => {
 
     return (
         <form onSubmit={handleSubmit} className="login-form">
-            <p className="text-center">Change or add any event information:</p>
+            <p>Change or add any event information:</p>
             <div className="login-field">
                 <label>Title:</label>
                 <input value={title} onChange={(e) => setTitle(e.target.value)}/>
@@ -75,4 +75,4 @@ const UpdateEventForm = ({ event }) => {
     )
 }
 
-export default UpdateEventForm
+export default EventUpdateForm

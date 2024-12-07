@@ -1,7 +1,9 @@
 "use client"
 
-import "@styles/forms.css";
 import { useState } from "react";
+import Link from 'next/link';
+
+import "@styles/forms.css";
 import { api } from "@/utils/api";
 import { useUserUpdate } from "@components/AppWrapper";
 
@@ -11,12 +13,14 @@ const SignUpForm = ({ onSignUp = () => {} }) => {
     const [password, setPassword] = useState("");
     const [passwordCheck, setPasswordCheck] = useState("");
     const [error, setError] = useState("");
+    const [errorMatch, setErrorMatch] = useState(false);
 
     const userUpdate = useUserUpdate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (password !== passwordCheck){
+            setErrorMatch(true);
             setError("Passwords do not match");
             return;
         }
@@ -25,10 +29,22 @@ const SignUpForm = ({ onSignUp = () => {} }) => {
             await api.post("/users",{name, email, password});
             const resLogin = await api.post("/auth/login",{email, password});
             userUpdate(resLogin.user);
+            resetError();
             onSignUp();
         } catch(error){
             setError(error.toString());
         }
+    }
+
+    const resetError = () => {
+        setError("");
+        setErrorMatch(false);
+    }
+
+    const updatePassword = (field, value) => {//side effects for setting either password field
+        field(value);
+        setErrorMatch(false);
+        setError("");
     }
 
     return (
@@ -60,7 +76,8 @@ const SignUpForm = ({ onSignUp = () => {} }) => {
                     autoComplete="current-password"
                     placeholder="Password"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e) => updatePassword(setPassword, e.target.value)}
+                    className={errorMatch ? "error" : ""}
                 />
                 <label>Password:</label>
             </div>
@@ -70,7 +87,8 @@ const SignUpForm = ({ onSignUp = () => {} }) => {
                     autoComplete="current-password"
                     placeholder="Password"
                     value={passwordCheck}
-                    onChange={(e) => setPasswordCheck(e.target.value)}
+                    onChange={(e) => updatePassword(setPasswordCheck, e.target.value)}
+                    className={errorMatch ? "error" : ""}
                 />
                 <label>Confirm Password:</label>
             </div>
@@ -78,6 +96,7 @@ const SignUpForm = ({ onSignUp = () => {} }) => {
             <div className="text-center">
                 <button className="form-button" type="submit">Sign Up</button>
             </div>
+            <p className="text-center">Already have an accout: <Link href="/login">Login</Link></p>
         </form>
       )
 }

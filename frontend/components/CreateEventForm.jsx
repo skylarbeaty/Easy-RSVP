@@ -58,7 +58,7 @@ const CreateEventForm = () => {
               id="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder=" "
+              placeholder="Name of event"
             />
             <label htmlFor="title">Event Title*</label>
         </div>
@@ -87,7 +87,7 @@ const CreateEventForm = () => {
             <input
               type="text"
               id="location"
-              placeholder="123 Main st"
+              placeholder="123 Main st, Anywhere, OH 45678"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
             />

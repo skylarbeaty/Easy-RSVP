@@ -23,30 +23,30 @@ const RSVPForm = ({ eventId, onRSVP = () => {} }) => {
   return (
     <form onSubmit={handleSubmit} className="login-form">
       <p className="text-center">Respond, if you please:</p>
-      <div className="login-field">
-        <label>Name:</label>
+      <div className="form-group">
         <input
           type="name"
           autoComplete="name"
           value={guestName}
           onChange={(e) => setGeustName(e.target.value)}
         />
+        <label>Name</label>
       </div>
-      <div className="login-field">
-        <label>RSVP:</label>
+      <div className="form-group">
         <select value={response} onChange={(e) => setResponse(e.target.value)}>
           <option value="">Select</option>
           <option value="yes">Yes</option>
           <option value="no">No</option>
           <option value="maybe">Maybe</option>
         </select>
+        <label>RSVP</label>
       </div>
-      <div className="login-field">
-        <label>Coment:</label>
+      <div className="form-group">
         <input
           value={comment}
           onChange={(e) => setComment(e.target.value)}
         />
+        <label>Comment</label>
       </div>
       {error && <p className="error">{error}</p>} 
       <div className="text-center">

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from 'next/link';
 import { api } from "@utils/api";
-import UpdateEventForm from "@components/UpdateEventForm";
+import EventUpdateForm from "@components/EventUpdateForm";
 import RSVPList from "@components/RSVPList";
 
 const ManageEvent = () => {
@@ -37,25 +37,22 @@ const ManageEvent = () => {
 
     return (
         <section>
-            <h1 className="text-center">Manage Event: {event.title}</h1>
+            <h1>Manage Event: {event.title}</h1>
             <><br /></>
-            <h2 className="text-center">RSVP Responses</h2>
+            <h2>RSVP Responses</h2>
             <RSVPList eventId={event.id}/>
             <><br /></>
-            <div className="text-center">
-                <button onClick={() => navigator.clipboard.writeText(`${window.location.origin}/events/${id}`)}>
-                    Copy Event Link
-                </button>
-            </div>
+            <button onClick={() => navigator.clipboard.writeText(`${window.location.origin}/events/${id}`)}>
+                Copy Event Link
+            </button>
             <><br /></>
-            <div className="text-center">
-                <Link href={`/events/${id}`}>
-                    View Event Page
-                </Link>
-            </div>
             <><br /></>
-            <h2 className="text-center">Update Event</h2>
-            <UpdateEventForm event={event}/>
+            <Link href={`/events/${id}`}>
+                View Event Page
+            </Link>
+            <><br /></>
+            <h2>Update Event</h2>
+            <EventUpdateForm event={event}/>
         </section>
     )
 }

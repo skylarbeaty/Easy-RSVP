@@ -1,3 +1,6 @@
+"use client"
+
+import "@styles/tables.css";
 import React, { useState, useEffect } from 'react'
 import { api } from "@utils/api"
 
@@ -21,17 +24,39 @@ const RSVPList = ({eventId}) => {
     return (
         <>
             {rsvps.length > 0 ? (
-            <ul>
+            <table className="event-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Response</th>
+                        <th>Date Responded</th>
+                        <th>comment</th>
+                    </tr>
+                </thead>
+                <tbody>
                 {rsvps.map((rsvp) => (
-                    <li className='text-center' key={rsvp.id}>
-                        {rsvp.name}: {rsvp.response} ({rsvp.comment || "No comment"})
-                    </li>
+                    <tr key={rsvp.id}>
+                        <td>{rsvp.name}</td>
+                        <td>Email</td>
+                        <td>{rsvp.response}</td>
+                        <td>{rsvp.dateResponded}</td>
+                        <td>{rsvp.comment}</td>
+                    </tr>
                 ))}
-            </ul>
+                </tbody>
+            </table>
+            // <ul>
+            //     {rsvps.map((rsvp) => (
+            //         <li key={rsvp.id}>
+            //             {rsvp.name}: {rsvp.response} ({rsvp.comment || "No comment"})
+            //         </li>
+            //     ))}
+            // </ul>
             ) : (
                 <>
-                    <p className='text-center'>No RSVPs yet :c</p>
-                    <p className='text-center'>Share the event link with your friends!</p>
+                    <p>No RSVPs yet :c</p>
+                    <p>Share the event link with your friends!</p>
                     {error && <p className="error">{error}</p>} 
                 </>
             )}

@@ -62,7 +62,9 @@ const Event = () => {
             <p className="text-center">Yes: {stats.yes}</p>
             <p className="text-center">No: {stats.no}</p>
             <p className="text-center">Maybe: {stats.maybe}</p>
-            <RSVPForm eventId={event.id} onRSVP={handleRSVP}/>
+            <div className="justify-center">
+                <RSVPForm eventId={event.id} onRSVP={handleRSVP}/>
+            </div>
         </section>
     )
 }

@@ -2,8 +2,8 @@
 
 import "@styles/forms.css";
 import { useState } from "react";
-import { api } from "@/utils/api";
 import Link from 'next/link';
+import { api } from "@/utils/api";
 import { useUserUpdate } from "@components/AppWrapper";
 
 const LoginForm = ({ onLogin }) => {
@@ -24,10 +24,14 @@ const LoginForm = ({ onLogin }) => {
     }
   }
 
+  const updateField = (state, value) => {
+    state(value);
+    setError("");
+  }
+
   return (
     <form onSubmit={handleSubmit}>
         <p className="text-center">Please enter your details to login</p>
-        <p className="text-center">If you don't have an accout: <Link href="/signup">Sign up</Link></p>
         <div className="form-group">
             <input
                 type="email"
@@ -35,7 +39,8 @@ const LoginForm = ({ onLogin }) => {
                 autoComplete="email"
                 placeholder="Email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => updateField(setEmail, e.target.value)}
+                className={error ? "error" : ""}
             />
             <label htmlFor="email">Email:</label>
         </div>
@@ -47,14 +52,16 @@ const LoginForm = ({ onLogin }) => {
                 autoComplete="current-password"
                 placeholder="Password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => updateField(setPassword, e.target.value)}
+                className={error ? "error" : ""}
             />
             <label htmlFor="password">Password:</label>
         </div>
         {error && <p className={"error-message text-center"}>{error}</p>}
         <div className="text-center">
-            <button className="form-button" type="submit">Login</button>
+            <button className="form-button" type="submit" disabled={error}>Login</button>
         </div>
+        <p className="text-center">If you don't have an accout: <Link href="/signup">Sign up</Link></p>
     </form>
   )
 }
