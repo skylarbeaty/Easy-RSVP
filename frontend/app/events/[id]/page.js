@@ -59,9 +59,11 @@ const Event = () => {
                 location={event.location}
             />
             <h4 className="text-center">RSVP Stats</h4>
-            <p className="text-center">Yes: {stats.yes}</p>
-            <p className="text-center">No: {stats.no}</p>
-            <p className="text-center">Maybe: {stats.maybe}</p>
+            <div className="summary-holder">
+                <p className="summary-yes">Yes: {stats.yes}</p>
+                <p className="summary-no">No: {stats.no}</p>
+                <p className="summary-maybe">Maybe: {stats.maybe}</p>
+            </div>
             <div className="justify-center">
                 <RSVPForm eventId={event.id} onRSVP={handleRSVP}/>
             </div>

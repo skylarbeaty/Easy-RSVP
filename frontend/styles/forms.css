@@ -69,6 +69,29 @@ textarea.error {
     border-color: #f51d1b;
 }
 
+.summary-holder{
+    justify-self: center;
+}
+
+.summary-yes,
+.summary-no,
+.summary-maybe{
+    display: inline-block;
+    padding: 0 0.7rem;
+}
+
+.summary-yes{
+    color: green;
+}
+
+.summary-no{
+    color: red;
+}
+
+.summary-maybe{
+    color: orange;
+}
+
 /* Button */
 
 button {
