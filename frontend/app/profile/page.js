@@ -1,9 +1,7 @@
 "use client"
 
 import "@styles/forms.css";
-import { useState } from "react";
 import { useUser } from "@components/AppWrapper";
-import { api } from "@utils/api";
 import EventList from "@components/EventList";
 import UserRSVPList from "@components/UserRSVPList";
 import UserUpdateForm from "@components/UserUpdateForm";

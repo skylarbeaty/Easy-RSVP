@@ -309,13 +309,48 @@ def get_event_rsvps(event_id):
     return jsonify(result)
 
 # Get all RSVPs for a specific user
-@app.route("/api/rsvps/user/<int:user_id>", methods=["GET"])
-def get_user_rsvps(user_id):
+@app.route("/api/rsvps/user", methods=["GET"])
+@login_required
+def get_user_rsvps():
+    user_id=session["user_id"]
+    if not user_id:
+        return jsonify({"error":"Unauthorized"}), 401
+    try:
         rsvps = RSVP.query.filter_by(guest_id=user_id).all()
-        if not rsvps:
-            return jsonify({"message":"No RSVPs found for this user"}), 404
-        result = [rsvp.to_json() for rsvp in rsvps]
+        result = []
+        for rsvp in rsvps:
+            event = Event.query.filter_by(id=rsvp.event_id).first()
+            if not event:
+                continue
+            
+            rsvpInfo = { # combine RSVP and Event data
+                "id": rsvp.id,
+                "title": event.title,
+                "date": event.date_time.isoformat(),
+                "response": rsvp.response.value,
+                "comment": rsvp.comment,
+                "eventId": event.id
+            }
+            result.append(rsvpInfo)
         return jsonify(result), 200
+    except Exception as e:
+        return jsonify({"error":"Internal Server Error"}), 500
+
+# Get user's RSVP for specific event
+@app.route("/api/rsvps/event/<int:event_id>/user", methods=["GET"])
+@login_required
+def get_user_rsvp_for_event(event_id):
+    user_id=session["user_id"]
+    if not user_id:
+        return jsonify({"error":"Unauthorized"}), 401
+    try:
+        rsvp = RSVP.query.filter_by(guest_id=user_id, event_id=event_id).first()
+        if not rsvp:
+            return '', 204
+        return jsonify(rsvp.to_json()), 200
+    except Exception as e:
+        app.logger.error(f"Error fetching RSVPs: {str(e)}")
+        return jsonify({"error":"Internal Server Error"}), 500
 
 # Get RSVP summary for an event, counts for each response
 @app.route("/api/rsvps/event/<int:event_id>/summary", methods=["GET"])
@@ -329,7 +364,6 @@ def get_event_rsvp_summary(event_id):
     }
     return jsonify(summary), 200
 
-
 # Create an RSVP
 @app.route("/api/rsvps", methods=["POST"])
 def create_rsvp():
@@ -338,16 +372,20 @@ def create_rsvp():
 
         required = ["eventId", "response", "guestName"]
         for field in required:
-            if field not in data:
-                return jsonify({"error":f"Missing required field"}), 400
+            if not data.get(field):
+                return jsonify({"error":f"Missing required field {field}"}), 400
 
         response_value = data["response"].lower()
         if response_value not in Response.__members__:
                 return jsonify({"error": f"Invalid response: {response_value}"}), 400
         
+        guest_id = None
+        if "user_id" in session:
+            guest_id = session["user_id"]
+
         new_rsvp = RSVP(
             event_id=data["eventId"],
-            guest_id=data.get("guestId"),
+            guest_id=guest_id,
             guest_name=data.get("guestName"),
             response=Response[response_value],
             comment=data.get("comment"),
@@ -361,11 +399,16 @@ def create_rsvp():
 
 # Update an RSVP
 @app.route("/api/rsvps/<int:id>", methods=["PATCH"])
+@login_required
 def update_rsvp(id):
+    user_id = session.get("user_id")
+    if not user_id:
+        return jsonify({"error":"Unauthorized"}), 401
+    
     try:
         rsvp = RSVP.query.get(id)
-        if rsvp is None:
-            return jsonify({"error":"Event not found"}),404
+        if not RSVP:
+            return jsonify({"error":"RSVP not found"}), 404
         
         data = request.json
         if "response" in data:
@@ -374,15 +417,37 @@ def update_rsvp(id):
                 if response_value not in Response.__members__:
                     return jsonify({"error": f"Invalid response: {response_value}"}), 400
                 rsvp.response = Response[response_value]
-        
-        rsvp.guest_id = data.get("guestId", rsvp.guest_id)
+
+        rsvp.guest_id = user_id
         rsvp.guestName = data.get("guestName", rsvp.guest_id)
         rsvp.comment = data.get("comment", rsvp.comment)
 
         db.session.commit()
-        return jsonify({"RSVP updated successfully":rsvp.to_json()}), 200
+        return jsonify(rsvp.to_json()), 200
     except Exception as e:
         db.session.rollback()
+        app.logger.error(f"Error fetching RSVPs: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+    
+@app.route("/api/rsvps/<int:id>/capture", methods=["PATCH"])
+@login_required
+def rsvp_capture(id):
+    user_id = session.get("user_id")
+    if not user_id:
+        return jsonify({"error":"Unauthorized"}), 401
+    
+    try:
+        rsvp = RSVP.query.get(id)
+        if not RSVP:
+            return jsonify({"error":"RSVP not found"}), 404
+        
+        rsvp.guest_id = user_id
+
+        db.session.commit()
+        return jsonify(rsvp.to_json()), 200
+    except Exception as e:
+        db.session.rollback()
+        app.logger.error(f"Error capturing RSVP: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
 # Delete an RSVP

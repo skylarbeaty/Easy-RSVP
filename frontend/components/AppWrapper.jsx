@@ -23,6 +23,13 @@ const AppWrapper = ({children}) => {
             try{
                 const res = await api.get("/auth/me");
                 setUser(res.user);
+
+                // handle guest RSVPs after login/signup
+                const guestRsvpId = localStorage.getItem("guest_rsvp_id");
+                if (guestRsvpId && res.user){
+                    await api.patch(`/rsvps/${guestRsvpId}/capture`);
+                    localStorage.removeItem("guest_rsvp_id");
+                }
             } catch (error){
                 setUser(null);
             } finally {

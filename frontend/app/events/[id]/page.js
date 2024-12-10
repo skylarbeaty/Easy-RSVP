@@ -50,13 +50,13 @@ const Event = () => {
             <h1 className="text-center">{event.title}</h1>
             <p className="text-center">{event.description}</p>
             <p className="text-center">Date and Time: {event.dateTime}</p>
-            <p className="text-center">Location: {event.Location}</p>
+            <p className="text-center">Location: {event.location}</p>
             <AddToCalendar
                 title={event.title}
                 start={event.dateTime}
                 end={event.dateTime}
                 details={event.description}
-                location={event.Location}
+                location={event.location}
             />
             <h4 className="text-center">RSVP Stats</h4>
             <p className="text-center">Yes: {stats.yes}</p>

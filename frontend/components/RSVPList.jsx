@@ -46,13 +46,6 @@ const RSVPList = ({eventId}) => {
                 ))}
                 </tbody>
             </table>
-            // <ul>
-            //     {rsvps.map((rsvp) => (
-            //         <li key={rsvp.id}>
-            //             {rsvp.name}: {rsvp.response} ({rsvp.comment || "No comment"})
-            //         </li>
-            //     ))}
-            // </ul>
             ) : (
                 <>
                     <p>No RSVPs yet :c</p>

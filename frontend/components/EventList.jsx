@@ -2,6 +2,7 @@
 
 import "@styles/tables.css";
 import { useEffect, useState } from "react";
+import Link from 'next/link';
 import { api } from "@/utils/api";
 import { useUser } from "@components/AppWrapper";
 
@@ -25,32 +26,38 @@ const EventList = () => {
     }, [user])
 
     return (
-        <table className="event-table">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Date</th>
-                    <th>Summary</th>
-                    <th>Manage Event</th>
-                    <th>Event Page</th>
-                </tr>
-            </thead>
-            <tbody>
-            {events.map((event) => (
-                <tr key={event.id}>
-                    <td>{event.title}</td>
-                    <td>{event.dateTime}</td>
-                    <td>
-                        Yes: {event.rsvpSummary.yes}, 
-                        No: {event.rsvpSummary.no}, 
-                        Maybe: {event.rsvpSummary.maybe}
-                    </td>
-                    <td><a>Manage</a></td>
-                    <td><a>View</a></td>
-                </tr>
-            ))}
-            </tbody>
-        </table>
+        <>
+        {events.length > 0 ? (
+            <table className="event-table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Date</th>
+                        <th>Summary</th>
+                        <th>Manage Event</th>
+                        <th>Event Page</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {events.map((event) => (
+                    <tr key={event.id}>
+                        <td>{event.title}</td>
+                        <td>{event.dateTime}</td>
+                        <td>
+                            Yes: {event.rsvpSummary.yes}, 
+                            No: {event.rsvpSummary.no}, 
+                            Maybe: {event.rsvpSummary.maybe}
+                        </td>
+                        <td><Link href={"/events/" + event.id + "/manage"}>Manage</Link></td>
+                        <td><Link href={"/events/" + event.id}>View</Link></td>
+                    </tr>
+                ))}
+                </tbody>
+            </table>
+        ) : (
+            <p>Events you create will show up here ^.^</p>
+        )}
+        </>
     )
 }
 
