@@ -38,10 +38,6 @@ const ManageEvent = () => {
     return (
         <section>
             <h1>Manage Event: {event.title}</h1>
-            <><br /></>
-            <h2>RSVP Responses</h2>
-            <RSVPList eventId={event.id}/>
-            <><br /></>
             <button onClick={() => navigator.clipboard.writeText(`${window.location.origin}/events/${id}`)}>
                 Copy Event Link
             </button>
@@ -50,6 +46,10 @@ const ManageEvent = () => {
             <Link href={`/events/${id}`}>
                 View Event Page
             </Link>
+            <><br /></>
+            <><br /></>
+            <h2>RSVP Responses</h2>
+            <RSVPList eventId={event.id}/>            
             <><br /></>
             <h2>Update Event</h2>
             <EventUpdateForm event={event}/>

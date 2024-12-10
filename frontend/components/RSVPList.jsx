@@ -28,7 +28,7 @@ const RSVPList = ({eventId}) => {
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Email</th>
+                        {/* <th>Email</th> */}
                         <th>Response</th>
                         <th>Date Responded</th>
                         <th>comment</th>
@@ -37,8 +37,8 @@ const RSVPList = ({eventId}) => {
                 <tbody>
                 {rsvps.map((rsvp) => (
                     <tr key={rsvp.id}>
-                        <td>{rsvp.name}</td>
-                        <td>Email</td>
+                        <td>{rsvp.guestName}</td>
+                        {/* <td>Email</td> */}
                         <td>{rsvp.response}</td>
                         <td>{rsvp.dateResponded}</td>
                         <td>{rsvp.comment}</td>

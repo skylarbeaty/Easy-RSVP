@@ -58,14 +58,15 @@ const Event = () => {
                 details={event.description}
                 location={event.location}
             />
+            <h4 className="text-center">Youre RSVP</h4>
+            <div className="justify-center">
+                <RSVPForm eventId={event.id} onRSVP={handleRSVP}/>
+            </div>
             <h4 className="text-center">RSVP Stats</h4>
             <div className="summary-holder">
                 <p className="summary-yes">Yes: {stats.yes}</p>
                 <p className="summary-no">No: {stats.no}</p>
                 <p className="summary-maybe">Maybe: {stats.maybe}</p>
-            </div>
-            <div className="justify-center">
-                <RSVPForm eventId={event.id} onRSVP={handleRSVP}/>
             </div>
         </section>
     )

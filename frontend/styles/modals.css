@@ -1,0 +1,57 @@
+.modal, .modal-overlay {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999; 
+}
+
+.modal-overlay {
+    background: rgba(0,0,0,0.45);
+}
+
+.modal-content {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    line-height: 1.4;
+    background: #f1f1f1;
+    padding: 14px 28px;
+    border-radius: 4px;
+    max-width: 600px;
+    min-width: 250px;
+}
+
+
+/* Calender */
+
+.calendar-button{
+    background-color: var(--light-color);
+    color: var(--text-light-color);
+}
+
+.calendar-button:hover,
+.calendar-button:focus{
+    background-color: var(--dark-color);
+    color: var(--text-light-color);
+}
+
+.calender-card{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    justify-self: center;
+    width: 12rem;
+    margin: 0.5rem auto;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.calender-card img{
+    height: 40px;
+}
+
