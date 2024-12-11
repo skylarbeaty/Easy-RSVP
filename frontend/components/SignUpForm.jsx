@@ -13,14 +13,21 @@ const SignUpForm = ({ onSignUp = () => {} }) => {
     const [password, setPassword] = useState("");
     const [passwordCheck, setPasswordCheck] = useState("");
     const [error, setError] = useState("");
-    const [errorMatch, setErrorMatch] = useState(false);
+    const [errorPass, setErrorPass] = useState(false);
 
     const userUpdate = useUserUpdate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const passwordValidationError = validatePassword(password);
+        if (passwordValidationError){
+            setErrorPass(true);
+            setError(passwordValidationError);
+            return;
+        }
+
         if (password !== passwordCheck){
-            setErrorMatch(true);
+            setErrorPass(true);
             setError("Passwords do not match");
             return;
         }
@@ -38,13 +45,24 @@ const SignUpForm = ({ onSignUp = () => {} }) => {
 
     const resetError = () => {
         setError("");
-        setErrorMatch(false);
+        setErrorPass(false);
     }
 
     const updatePassword = (field, value) => {//side effects for setting either password field
         field(value);
-        setErrorMatch(false);
+        setErrorPass(false);
         setError("");
+    }
+
+    const validatePassword = (password) => {
+        const minLength = 8;
+        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        if (password.length < minLength){
+            return `Password must be at least ${minLength} characters long`;
+        }
+        if (!regex.test(password)){
+            return "Password must contain an uppercase letter, lowercase letter, number and special character"
+        }
     }
 
     return (
@@ -77,7 +95,7 @@ const SignUpForm = ({ onSignUp = () => {} }) => {
                     placeholder="Password"
                     value={password}
                     onChange={(e) => updatePassword(setPassword, e.target.value)}
-                    className={errorMatch ? "error" : ""}
+                    className={errorPass ? "error" : ""}
                 />
                 <label>Password:</label>
             </div>
@@ -88,7 +106,7 @@ const SignUpForm = ({ onSignUp = () => {} }) => {
                     placeholder="Password"
                     value={passwordCheck}
                     onChange={(e) => updatePassword(setPasswordCheck, e.target.value)}
-                    className={errorMatch ? "error" : ""}
+                    className={errorPass ? "error" : ""}
                 />
                 <label>Confirm Password:</label>
             </div>
@@ -96,7 +114,7 @@ const SignUpForm = ({ onSignUp = () => {} }) => {
             <div className="text-center">
                 <button className="form-button" type="submit">Sign Up</button>
             </div>
-            <p className="text-center">Already have an accout: <Link href="/login">Login</Link></p>
+            <p className="text-center">Already have an accout? <Link href="/login">Login</Link></p>
         </form>
       )
 }
