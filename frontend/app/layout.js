@@ -1,6 +1,7 @@
 import "@styles/globals.css";
 import AppWrapper from "@components/AppWrapper";
 import Nav from "@components/Nav";
+import Footer from "@components/Footer";
 
 export const metadata = {
   title: "RSEZ ~ Easy RSVP",
@@ -13,11 +14,12 @@ export default function RootLayout({ children }) {
       <body>
         <AppWrapper>
           <main className="app">
-              <Nav />
-              <><br /></>
-              <div className="app-inner">
-                {children}
-              </div>
+            <Nav />
+            <><br /></>
+            <div className="app-inner">
+              {children}
+            </div>
+            <Footer />
           </main>
         </AppWrapper>
       </body>
