@@ -5,6 +5,7 @@ import { useRouter, useParams } from "next/navigation";
 import { api } from "@utils/api";
 import RSVPForm from "@components/RSVPForm";
 import AddToCalendar from "@components/AddToCalendar";
+import OpenInMaps from "@components/OpenInMaps";
 
 const Event = () => {
     const params = useParams();
@@ -51,13 +52,16 @@ const Event = () => {
             <p className="text-center">{event.description}</p>
             <p className="text-center">Date and Time: {event.dateTime}</p>
             <p className="text-center">Location: {event.location}</p>
-            <AddToCalendar
-                title={event.title}
-                start={event.dateTime}
-                end={event.dateTime}
-                details={event.description}
-                location={event.location}
-            />
+            <div className="button-group">
+                <AddToCalendar
+                    title={event.title}
+                    start={event.dateTime}
+                    end={event.dateTime}
+                    details={event.description}
+                    location={event.location}
+                />
+                <OpenInMaps location={event.location} />
+            </div>
             <h4 className="text-center">Youre RSVP</h4>
             <div className="justify-center">
                 <RSVPForm eventId={event.id} onRSVP={handleRSVP}/>

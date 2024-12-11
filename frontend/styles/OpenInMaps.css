@@ -1,0 +1,10 @@
+.maps-button{
+    background-color: var(--light-color);
+    color: var(--text-light-color);
+}
+
+.maps-button:hover,
+.maps-button:focus{
+    background-color: var(--dark-color);
+    color: var(--text-light-color);
+}

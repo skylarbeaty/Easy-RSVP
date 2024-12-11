@@ -44,8 +44,8 @@ const Nav = () => {
           </>
         ):(          
           <>
-            <Link href="/login" className='navbar-link'>Login</Link>
-            <Link href="/signup" className='navbar-link'>Sign Up</Link>
+            <Link onClick={() => setMenuOpen(false)} href="/login" className='navbar-link'>Login</Link>
+            <Link onClick={() => setMenuOpen(false)} href="/signup" className='navbar-link'>Sign Up</Link>
           </>
         )}
       </div>

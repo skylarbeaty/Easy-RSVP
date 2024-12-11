@@ -106,7 +106,6 @@ button {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     transition: all 0.2s ease-in-out;
-    margin-right: 1rem;
 }
 
 button:hover,
@@ -122,4 +121,10 @@ button:disabled{
     border-color: #ddd;
     cursor: not-allowed;
     box-shadow: none;
+}
+
+.button-group{
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
 }
