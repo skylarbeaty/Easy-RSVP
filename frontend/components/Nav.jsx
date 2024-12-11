@@ -1,8 +1,10 @@
 "use client"
 
-import "@styles/Nav.css";
+import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from "next/navigation";
+
+import "@styles/Nav.css";
 import { api } from "@/utils/api";
 import { useUser, useUserUpdate } from "@components/AppWrapper";
 
@@ -10,6 +12,8 @@ const Nav = () => {
   const user = useUser();
   const userUpdate = useUserUpdate();
   const router = useRouter();
+
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLogout = async() => {
     try{
@@ -32,7 +36,7 @@ const Nav = () => {
           />
         </Link>
       </div>
-      <div className='navbar-right'>
+      <div className={`navbar-right ${menuOpen ? "open" : ""}`}>
         {user? (
           <>
             <Link href="/profile" className='navbar-link'>Profile</Link>
@@ -45,6 +49,11 @@ const Nav = () => {
           </>
         )}
       </div>
+      <button className='hamburger' onClick={() => setMenuOpen((prev) => !prev)}>
+        <span className='line'></span>
+        <span className='line'></span>
+        <span className='line'></span>
+      </button>
     </nav>
   )
 }
