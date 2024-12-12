@@ -6,6 +6,7 @@ import { useParams, useRouter } from "next/navigation";
 import { api } from "@utils/api";
 import EventUpdateForm from "@components/EventUpdateForm";
 import RSVPList from "@components/RSVPList";
+import Skeleton from "@components/Skeleton";
 
 const ManageEvent = () => {
     const params = useParams();
@@ -38,7 +39,17 @@ const ManageEvent = () => {
     }
 
     if (!event) {
-        return <p>Loading...</p>
+        return (
+            <section>
+                <Skeleton type="page-header" itemCount={0} buttonCount={2} leftJustify={true}/>
+                <><br /></>
+                <h2>Update Event</h2>
+                <Skeleton type="form" itemCount={6} buttonCount={1} leftJustify={true} />
+                <><br /></>
+                <h2>RSVP Responses</h2>
+                <RSVPList eventId={null}/>
+            </section>
+        )
     }
 
     return (
@@ -54,11 +65,12 @@ const ManageEvent = () => {
                 </button>
             </div>
             <><br /></>
-            <h2>RSVP Responses</h2>
-            <RSVPList eventId={event.id}/>            
-            <><br /></>
             <h2>Update Event</h2>
             <EventUpdateForm event={event}/>
+            <><br /></>
+            <h2>RSVP Responses</h2>
+            <RSVPList eventId={event.id}/>
+            <><br /></>
             <><br /></>
         </section>
     )

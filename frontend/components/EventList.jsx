@@ -4,13 +4,16 @@ import "@styles/tables.css";
 import { useEffect, useState } from "react";
 import Link from 'next/link';
 import { api } from "@/utils/api";
-import { useUser } from "@components/AppWrapper";
+import { useUser, useUserLoading } from "@components/AppWrapper";
+import Skeleton from "./Skeleton";
 
 const EventList = () => {
     const user = useUser();
+    const userLoading = useUserLoading();
 
     const [error, setError] = useState("");
     const [events, setEvents] = useState([]);
+    const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
         const getEvents = async (e) => {
@@ -20,10 +23,20 @@ const EventList = () => {
             }catch (error){
                 setError(error.toString());
             }
+            setLoaded(true);
         }
         if (user)
             getEvents();
+
+        if (!userLoading && user == null)
+            setLoaded(true);
     }, [user])
+    
+    if (!loaded){
+        return(
+            <Skeleton type="spinner" leftJustify={true}/>
+        )
+    }
 
     return (
         <>

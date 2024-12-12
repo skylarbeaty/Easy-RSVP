@@ -5,9 +5,11 @@ import { useState } from "react";
 import { useUser } from "@components/AppWrapper";
 import { api } from "@utils/api";
 
-const UserUpdateForm = () => {  const user = useUser();
-  const [name, setName] = useState(user.name);
-  const [email, setEmail] = useState(user.email);
+const UserUpdateForm = () => {  
+  const user = useUser();
+  
+  const [name, setName] = useState(user.name || "");
+  const [email, setEmail] = useState(user.email || "");
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
   const [passwordCurrent, setPasswordCurrent] = useState("");
@@ -95,7 +97,8 @@ const UserUpdateForm = () => {  const user = useUser();
           <input 
               type="email"
               id="email"
-              value={email} 
+              value={email}
+              autoComplete="username"
               onChange={(e) => setEmail(e.target.value)}
               placeholder=" "
           />
@@ -107,6 +110,7 @@ const UserUpdateForm = () => {  const user = useUser();
               type="password"
               id="new-password"
               value={password} 
+              autoComplete="new-password"
               onChange={(e) => setPassword(e.target.value)}
               className={errorMatch ? "error" : ""}
           />
@@ -117,7 +121,8 @@ const UserUpdateForm = () => {  const user = useUser();
           <input 
               type="password"
               id="verify-password"
-              value={passwordCheck} 
+              value={passwordCheck}
+              autoComplete="new-password"
               onChange={(e) => setPasswordCheck(e.target.value)}
               className={errorMatch ? "error" : ""}
           />
@@ -128,7 +133,8 @@ const UserUpdateForm = () => {  const user = useUser();
           <input 
               type="password" 
               id="current-password"
-              value={passwordCurrent} 
+              value={passwordCurrent}
+              autoComplete="current-password"
               onChange={(e) => changedPassword(e.target.value)}
               className={errorPass ? "error" : ""}
           />

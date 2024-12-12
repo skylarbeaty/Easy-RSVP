@@ -5,6 +5,7 @@ import { api } from "@utils/api";
 
 const UserContext = React.createContext();
 const UserUpdateContext = React.createContext();
+const UserLoadingContext = React.createContext();
 
 export function useUser (){
     return useContext(UserContext);
@@ -12,6 +13,10 @@ export function useUser (){
 
 export function useUserUpdate (){
     return useContext(UserUpdateContext);
+}
+
+export function useUserLoading (){
+    return useContext(UserLoadingContext);
 }
 
 const AppWrapper = ({children}) => {
@@ -24,7 +29,7 @@ const AppWrapper = ({children}) => {
                 const res = await api.get("/auth/me");
                 setUser(res.user);
 
-                // handle guest RSVPs after login/signup
+                // handle guest RSVPs after next login/signup
                 const guestRsvpId = localStorage.getItem("guest_rsvp_id");
                 if (guestRsvpId && res.user){
                     await api.patch(`/rsvps/${guestRsvpId}/capture`);
@@ -39,14 +44,12 @@ const AppWrapper = ({children}) => {
         fetchUser();
     }, []);
 
-    if (loading){
-      return <div>Loading..</div>
-    }
-
     return (
         <UserContext.Provider value = {user}>
             <UserUpdateContext.Provider value = {setUser}>
-                {children}
+                <UserLoadingContext.Provider value = {loading}>
+                    {children}
+                </UserLoadingContext.Provider>
             </UserUpdateContext.Provider>
         </UserContext.Provider>
     )

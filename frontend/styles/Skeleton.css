@@ -1,0 +1,112 @@
+.skeleton-base {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem;
+}
+
+.skeleton-title {
+    width: 60%;
+    height: 2rem;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+.skeleton-line {
+    width: 80%;
+    height: 1rem;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+.skeleton-button-group {
+    display: flex;
+    gap: 1rem;
+}
+
+.skeleton-button {
+    width: 10rem;
+    height: 2.5rem;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    margin: 0.5rem;
+    cursor: not-allowed;
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+.skeleton-form-title{
+    width: 70%;
+    height: 2rem;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+.skeleton-form-box{
+    width: 20rem;
+    height: 2.7rem;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    margin: 0.5rem auto;
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+.skeleton-spinner {
+    width: 30px;
+    height: 30px;
+    border: 2px solid transparent;
+    border-top: 3px solid rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    animation: spin 1s infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+        animation-timing-function: cubic-bezier(0.87, 0.2, 0.88, 0.2);
+    }
+    50% {
+        transform: rotate(180deg);
+        animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    100% {
+        transform: rotate(360deg);
+        animation-timing-function: cubic-bezier(0.87, 0.2, 0.88, 0.2);
+    }
+}
+
+.skeleton-left {
+    justify-self: left;
+    display: block;
+}
+
+.skeleton-form-box.skeleton-left{
+    margin: 2rem auto;
+}
+
+.skeleton-button.skeleton-left{
+    margin: 0;
+}
+
+.skeleton-title.skeleton-left{
+    margin: 0 0 1rem 0;
+}
+
+.skeleton-line.skeleton-left{
+    margin: 2rem 0;
+}

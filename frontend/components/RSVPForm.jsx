@@ -4,11 +4,13 @@ import { useEffect, useState } from "react"
 import Link from 'next/link';
 
 import "@styles/forms.css";
-import { useUser } from "@components/AppWrapper";
+import { useUser, useUserLoading } from "@components/AppWrapper";
 import { api } from "@utils/api"
+import Skeleton from "@components/Skeleton";
 
-const RSVPForm = ({ eventId, onRSVP = () => {} }) => {
+const RSVPForm = ({ eventId = null, onRSVP = () => {} }) => {
   const user = useUser();
+  const userLoading = useUserLoading();
 
   const [guestName, setGuestName] = useState("");
   const [response, setResponse] = useState("");
@@ -17,6 +19,7 @@ const RSVPForm = ({ eventId, onRSVP = () => {} }) => {
   const [success, setSuccess] = useState("");
   const [submitted, setSubmitted] = useState(null);
   const [updating, setUpdating] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     const fetchExistingRSVP = async () => {
@@ -28,13 +31,20 @@ const RSVPForm = ({ eventId, onRSVP = () => {} }) => {
           setResponse(existingRSVP.response || "");
           setComment(existingRSVP.comment || "");
         }
+        else{
+          setGuestName(user.name || "");
+        }
       }catch (error){
         setError(error.message || "Failed to check RSVP");
       }
+      setLoaded(true);
     }
     if (user)
       fetchExistingRSVP();
-  }, [user]);
+    
+    if(!userLoading && user == null)
+      setLoaded(true);
+  }, [user, userLoading]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -77,6 +87,12 @@ const RSVPForm = ({ eventId, onRSVP = () => {} }) => {
     setUpdating(true);
   }
 
+  if(!loaded){
+    return(
+      <Skeleton type="form" itemCount={3}/>
+    )
+  }
+
   if (submitted && !updating) {
     return (
       <>
@@ -95,7 +111,7 @@ const RSVPForm = ({ eventId, onRSVP = () => {} }) => {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="login-form">
+    <form onSubmit={handleSubmit}>
       <p className="text-center">Respond, if you please:</p>
       <div className="form-group">
         <input

@@ -6,11 +6,12 @@ import { useRouter } from "next/navigation";
 
 import "@styles/Nav.css";
 import { api } from "@/utils/api";
-import { useUser, useUserUpdate } from "@components/AppWrapper";
+import { useUser, useUserUpdate, useUserLoading } from "@components/AppWrapper";
 
 const Nav = () => {
   const user = useUser();
   const userUpdate = useUserUpdate();
+  const userLoading = useUserLoading();
   const router = useRouter();
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -37,12 +38,14 @@ const Nav = () => {
         </Link>
       </div>
       <div className={`navbar-right ${menuOpen ? "open" : ""}`}>
-        {user? (
+        {userLoading ? (
+          <></>//loading
+        ) : user ? (
           <>
             <Link href="/profile" className='navbar-link'>Profile</Link>
             <button className='navbar-button' onClick={handleLogout}>Logout</button>
           </>
-        ):(          
+        ) : (          
           <>
             <Link onClick={() => setMenuOpen(false)} href="/login" className='navbar-link'>Login</Link>
             <Link onClick={() => setMenuOpen(false)} href="/signup" className='navbar-link'>Sign Up</Link>

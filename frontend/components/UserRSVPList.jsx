@@ -3,13 +3,16 @@
 import { useEffect, useState } from "react";
 import Link from 'next/link';
 import { api } from "@/utils/api";
-import { useUser } from "@components/AppWrapper";
+import { useUser, useUserLoading  } from "@components/AppWrapper";
+import Skeleton from "@components/Skeleton";
 
 const UserRSVPList = () => {
     const user = useUser();
+    const userLoading = useUserLoading();
 
     const [error, setError] = useState("");
     const [rsvps, setRsvps] = useState([]);
+    const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
         const getRsvps = async (e) => {
@@ -20,11 +23,20 @@ const UserRSVPList = () => {
             }catch (error){
                 setError(error.message || "Failed to fetch RSVPs");
             }
+            setLoaded(true);
         }
         if (user)
             getRsvps();
-    }, [user])
 
+        if (!userLoading && user == null)
+            setLoaded(true);
+    }, [user, userLoading])
+
+    if (!loaded){
+        return(
+            <Skeleton type="spinner" leftJustify={true}/>
+        )
+    }
 
     return (
         <>

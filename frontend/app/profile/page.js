@@ -1,16 +1,26 @@
 "use client"
 
 import "@styles/forms.css";
-import { useUser } from "@components/AppWrapper";
+import { useUser, useUserLoading } from "@components/AppWrapper";
 import EventList from "@components/EventList";
 import UserRSVPList from "@components/UserRSVPList";
 import UserUpdateForm from "@components/UserUpdateForm";
+import Skeleton from "@components/Skeleton";
 
 const Profile = () => {
   const user = useUser();
+  const userLoading = useUserLoading();
 
-  if (!user){
-    return <div>Loading..</div>
+  if (userLoading){
+    return (
+      <section>
+        <Skeleton type={"form"} itemCount={5} leftJustify={true}/>
+        <h1>Your Events</h1>
+        <Skeleton type={"spinner"} leftJustify={true}></Skeleton>
+        <h1>Your RSVPs</h1>
+        <Skeleton type={"spinner"} leftJustify={true}></Skeleton>
+      </section>
+    )
   }
 
   return (

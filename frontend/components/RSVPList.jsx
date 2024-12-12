@@ -3,10 +3,12 @@
 import "@styles/tables.css";
 import React, { useState, useEffect } from 'react'
 import { api } from "@utils/api"
+import Skeleton from "@components/Skeleton";
 
 const RSVPList = ({eventId}) => {
     const [rsvps, setRsvps] = useState([]);
     const [error, setError] = useState([]);
+    const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
         const fetchRsvps = async () => {
@@ -16,10 +18,17 @@ const RSVPList = ({eventId}) => {
             }catch (error){
                 setError(error.message || "Fialed to fetch event details");
             }
+            setLoaded(true);
         }
-
-        fetchRsvps();
+        if (eventId)
+            fetchRsvps();
     }, [eventId]);
+
+    if (!loaded) {
+        return (
+            <Skeleton type="spinner" leftJustify={true} />
+        )
+    }
 
     return (
         <>

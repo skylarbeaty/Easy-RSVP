@@ -2,10 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
+
 import { api } from "@utils/api";
 import RSVPForm from "@components/RSVPForm";
 import AddToCalendar from "@components/AddToCalendar";
 import OpenInMaps from "@components/OpenInMaps";
+import Skeleton from "@components/Skeleton";
 
 const Event = () => {
     const params = useParams();
@@ -43,7 +45,21 @@ const Event = () => {
     }
 
     if (!event) {
-        return <p>Loading...</p>
+        return (
+            <section>
+                <Skeleton type = "page-header" itemCount={4} buttonCount={2}/>
+                <h4 className="text-center">Youre RSVP</h4>
+                <div className="justify-center">
+                    <RSVPForm onRSVP={handleRSVP}/>
+                </div>
+                <h4 className="text-center">RSVP Stats</h4>
+                <div className="summary-holder">
+                    <p className="summary-yes">Yes: </p>
+                    <p className="summary-no">No: </p>
+                    <p className="summary-maybe">Maybe: </p>
+                </div>
+            </section>
+        )
     }
 
     return (
