@@ -1,5 +1,7 @@
 "use client"
 
+import Link from 'next/link';
+
 import "@styles/forms.css";
 import { useUser, useUserLoading } from "@components/AppWrapper";
 import EventList from "@components/EventList";
@@ -19,6 +21,15 @@ const Profile = () => {
         <Skeleton type={"spinner"} leftJustify={true}></Skeleton>
         <h1>Your RSVPs</h1>
         <Skeleton type={"spinner"} leftJustify={true}></Skeleton>
+      </section>
+    )
+  }
+
+  if (!userLoading && !user){
+    return (
+      <section>
+        <p>To view your profile please: <Link href="/login">Login</Link></p>
+        <p>If you don't have an accout: <Link href="/signup">Sign up</Link></p>
       </section>
     )
   }
