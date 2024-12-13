@@ -3,15 +3,15 @@ import "@styles/Footer.css";
 const Footer = () => {
   return (
     <footer className='footer'>
-        <p>© 2024 Skylar Liz Beaty</p>
+        <p>© 2024</p>
         <a
             className="footer-link"
-            href="https://github.com"
+            href="https://github.com/skylarbeaty/Easy-RSVP"
             rel="noopener noreferrer"
             target="_blank"
         >
             <img 
-                src="/logo.png"
+                src="/github.svg"
                 alt="Github"
                 className="footer-logo"
             />

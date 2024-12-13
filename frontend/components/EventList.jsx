@@ -47,8 +47,7 @@ const EventList = () => {
                         <th>Title</th>
                         <th>Date</th>
                         <th>Summary</th>
-                        <th>Manage Event</th>
-                        <th>Event Page</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -61,8 +60,22 @@ const EventList = () => {
                             No: {event.rsvpSummary.no}, 
                             Maybe: {event.rsvpSummary.maybe}
                         </td>
-                        <td><Link href={"/events/" + event.id + "/manage"}>Manage</Link></td>
-                        <td><Link href={"/events/" + event.id}>View</Link></td>
+                        <td>
+                            <Link href={"/events/" + event.id + "/manage"}>
+                                <img 
+                                    src="/edit.svg"
+                                    alt="Edit Icon"
+                                    className="table-icon"
+                                />
+                            </Link>
+                            <Link href={"/events/" + event.id}>
+                                <img 
+                                    src="/view.svg"
+                                    alt="View Icon"
+                                    className="table-icon"
+                                />
+                            </Link>
+                        </td>
                     </tr>
                 ))}
                 </tbody>

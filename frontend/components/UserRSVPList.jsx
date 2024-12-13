@@ -49,7 +49,7 @@ const UserRSVPList = () => {
                             <th>Event Time</th>
                             <th>Response</th>
                             <th>Comment</th>
-                            <th>Event Link</th>
+                            <th>View</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -60,7 +60,15 @@ const UserRSVPList = () => {
                             <td>{new Date(rsvp.date).toLocaleTimeString()}</td>
                             <td>{rsvp.response}</td>
                             <td>{rsvp.comment}</td>
-                            <td><Link href={"/events/" + rsvp.eventId}>View</Link></td>
+                            <td>
+                                <Link href={"/events/" + rsvp.eventId} className="justify-center">
+                                    <img 
+                                        src="/view.svg"
+                                        alt="View Icon"
+                                        className="table-icon"
+                                    />
+                                </Link>
+                            </td>
                         </tr>
                     ))}
                     </tbody>

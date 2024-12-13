@@ -61,21 +61,21 @@ const AddToCalendar = ({ title, start, end, details, location}) => {
                             <div className="modal-options">
                                 <a className="calender-card" href={googleCalendarUrl} target="_blank" rel="noopener noreferrer">
                                     <img 
-                                        src="/logo.png"
+                                        src="/google-cal.svg"
                                         alt="Google Calendar logo"
                                     />
                                     <p>Google Calendar</p>
                                 </a>
                                 <a className="calender-card" href={outlookCalendarUrl} target="_blank" rel="noopener noreferrer">
                                     <img 
-                                        src="/logo.png"
+                                        src="/outlook.svg"
                                         alt="Outlook Calendar logo"
                                     />
                                     <p>Outlook Calendar</p>
                                 </a>
                                 <a className="calender-card" onClick={downloadIcsFile} target="_blank" rel="noopener noreferrer">
                                     <img 
-                                        src="/logo.png"
+                                        src="/apple.svg"
                                         alt="iCalendar logo"
                                     />
                                     <p>iCalendar</p>

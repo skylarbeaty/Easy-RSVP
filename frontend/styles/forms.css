@@ -26,7 +26,7 @@ textarea {
 input:focus,
 select:focus,
 textarea:focus{
-    border-color: #41b564;
+    border-color: var(--primary-color);
 }
 
 textarea {
@@ -54,11 +54,11 @@ textarea + label {
 input:focus + label,
 select:focus + label,
 textarea:focus + label{
-    color: #41b564;
+    color: var(--primary-color);
 }
 
 .error-message{
-    color: #f51d1b;
+    color: var(--error-color);
     font-size: 0.8rem;
     margin-top: 0.25rem;
 }
@@ -66,11 +66,13 @@ textarea:focus + label{
 input.error,
 select.error,
 textarea.error {
-    border-color: #f51d1b;
+    border-color: var(--error-color);
 }
 
 .summary-holder{
     justify-self: center;
+    border: solid 4px var(--primary-color-translucent);
+    border-radius: 4rem;
 }
 
 .summary-yes,
@@ -78,53 +80,22 @@ textarea.error {
 .summary-maybe{
     display: inline-block;
     padding: 0 0.7rem;
+    margin: 0 auto;
+    height: 100%;
+    min-height: 2.5rem;
+    align-content: center;
 }
 
 .summary-yes{
-    color: green;
+    color: var(--primary-color);
+    border-right: solid 2px var(--primary-color-translucent);
 }
 
 .summary-no{
-    color: red;
+    color: var(--error-color);
 }
 
 .summary-maybe{
-    color: orange;
-}
-
-/* Button */
-
-button {
-    display: inline-block;
-    padding: 0.6rem 1.3rem;
-    font-size: 1rem;
-    font-weight: 500;
-    color: #333;
-    background-color: #f5f5f5;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-}
-
-button:hover,
-button:focus{
-    background-color: #eaeaea;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
-    outline: none;
-}
-
-button:disabled{
-    background-color: #f0f0f0;
-    color: #aaa;
-    border-color: #ddd;
-    cursor: not-allowed;
-    box-shadow: none;
-}
-
-.button-group{
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
+    color: #bcbcbc;
+    border-left: solid 2px var(--primary-color-translucent);
 }

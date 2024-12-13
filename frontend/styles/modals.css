@@ -22,36 +22,31 @@
     background: #f1f1f1;
     padding: 14px 28px;
     border-radius: 4px;
-    max-width: 600px;
+    max-width: 500px;
     min-width: 250px;
 }
 
-
-/* Calender */
-
-/* .calendar-button{
-    background-color: #0b57cf;
-    color: var(--text-light-color);
-}
-
-.calendar-button:hover,
-.calendar-button:focus{
-    background-color: #094ab0;
-    color: var(--text-light-color);
-} */
-
-.calender-card{
+.calender-card {
     display: flex;
     align-items: center;
     justify-content: space-between;
     justify-self: center;
-    width: 12rem;
+    width: 13rem;
     margin: 0.5rem auto;
     text-decoration: none;
     cursor: pointer;
 }
 
-.calender-card img{
-    height: 40px;
+.calender-card:hover,
+.calender-card:focus {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.calender-card img {
+    height: 35px;
+    padding: 0 0.5rem;
+}
+
+.calender-card p {
+    padding: 0 0.5rem;
+}

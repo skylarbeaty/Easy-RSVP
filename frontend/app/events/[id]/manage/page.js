@@ -57,10 +57,20 @@ const ManageEvent = () => {
             <h1>Manage Event: {event.title}</h1>
             <><br /></>
             <div className="button-holder">
-                <button onClick={() => navigator.clipboard.writeText(`${window.location.origin}/events/${id}`)} className="margin-right">
+                <button onClick={() => navigator.clipboard.writeText(`${window.location.origin}/events/${id}`)} className="margin-right manage-event-button">
+                    <img 
+                        src="/copy.svg"
+                        alt="Copy Icon"
+                        className="button-icon"
+                    />
                     Copy Event Link
                 </button>
-                <button onClick={handleEventPage}>
+                <button onClick={handleEventPage} className="manage-event-button">
+                    <img 
+                        src="/view.svg"
+                        alt="View Icon"
+                        className="button-icon"
+                    />
                     View Event Page
                 </button>
             </div>

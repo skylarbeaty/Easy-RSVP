@@ -3,7 +3,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem 2rem;
-    background-color: var(--dark-color);
+    background-color: var(--primary-color);
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -47,7 +47,7 @@
 
 .navbar-button:hover {
     background-color: var(--link-color);
-    color: var(--dark-color);
+    color: var(--primary-color);
 }
 
 /* Hamburger */
@@ -89,7 +89,7 @@
         position: absolute;
         top: 65px;
         right: 0px;
-        background-color: var(--dark-color);
+        background-color: var(--primary-color);
         border-radius: 4px;
         width: 8rem;
         text-align: center;

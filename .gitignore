@@ -15,9 +15,11 @@ pip-selfcheck.json
 *pyc
 
 __pycache__/
-.pyc
+*.pyc
 
 node_modules/
 list/
 
 rsvps.db
+*.kra
+*.kra~

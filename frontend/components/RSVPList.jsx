@@ -40,7 +40,7 @@ const RSVPList = ({eventId}) => {
                         {/* <th>Email</th> */}
                         <th>Response</th>
                         <th>Date Responded</th>
-                        <th>comment</th>
+                        <th>Comment</th>
                     </tr>
                 </thead>
                 <tbody>

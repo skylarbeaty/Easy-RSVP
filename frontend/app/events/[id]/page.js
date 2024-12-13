@@ -48,7 +48,7 @@ const Event = () => {
         return (
             <section>
                 <Skeleton type = "page-header" itemCount={4} buttonCount={2}/>
-                <h4 className="text-center">Youre RSVP</h4>
+                <h4 className="text-center">Your RSVP</h4>
                 <div className="justify-center">
                     <RSVPForm onRSVP={handleRSVP}/>
                 </div>
@@ -78,7 +78,7 @@ const Event = () => {
                 />
                 <OpenInMaps location={event.location} />
             </div>
-            <h4 className="text-center">Youre RSVP</h4>
+            <h4 className="text-center">Your RSVP</h4>
             <div className="justify-center">
                 <RSVPForm eventId={event.id} onRSVP={handleRSVP}/>
             </div>

@@ -1,9 +1,10 @@
 :root{
-  --dark-color: #487555;
-  --light-color: #41B564;
-  --link-color: #FFFFF0;
-  --text-dark-color: #4B3A3A;
+  --primary-color: #6A5ACD;
+  --primary-color-translucent: rgba(106, 90, 205,0.1);
+  --secondary-color: #40E0D0;
   --text-light-color: #FFFFF0;
+  --text-dark-color: #4B3A3A;
+  --link-color: #FFFFF0;
   --error-color: #F51D1B;
 }
 
@@ -59,21 +60,23 @@ body {
   margin-right: 1rem;
 }
 .gradient {
+  /* made from #40E0D0 and #6A5ACD */
+  /* using https://www.joshwcomeau.com/gradient-generator/ */
   background-image: linear-gradient(
     45deg,
-    hsl(192deg 90% 53%) 0%,
-    hsl(198deg 96% 63%) 8%,
-    hsl(204deg 100% 71%) 17%,
-    hsl(212deg 100% 76%) 25%,
-    hsl(224deg 100% 81%) 33%,
-    hsl(242deg 87% 85%) 42%,
-    hsl(264deg 71% 82%) 50%,
-    hsl(287deg 56% 80%) 58%,
-    hsl(312deg 58% 79%) 67%,
-    hsl(328deg 74% 81%) 75%,
-    hsl(340deg 85% 82%) 83%,
-    hsl(350deg 91% 83%) 92%,
-    hsl(0deg 91% 83%) 100%
+    hsl(174deg 72% 56%) 0%,
+    hsl(179deg 100% 42%) 18%,
+    hsl(184deg 100% 43%) 26%,
+    hsl(188deg 100% 45%) 33%,
+    hsl(191deg 100% 46%) 39%,
+    hsl(195deg 100% 47%) 44%,
+    hsl(198deg 100% 47%) 50%,
+    hsl(201deg 100% 48%) 56%,
+    hsl(203deg 100% 47%) 61%,
+    hsl(206deg 100% 47%) 67%,
+    hsl(211deg 87% 48%) 74%,
+    hsl(227deg 67% 58%) 82%,
+    hsl(248deg 53% 58%) 100%
   );
   background-clip: text;
   color: transparent;
@@ -90,4 +93,55 @@ h2, p{
 
 section{
   width: 100%;
+}
+
+/* Button */
+
+button {
+  display: inline-block;
+  padding: 0.6rem 0.8rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+button:hover,
+button:focus{
+  background-color: #eaeaea;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  outline: none;
+}
+
+button:disabled{
+  background-color: #f0f0f0;
+  color: #aaa;
+  border-color: #ddd;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.button-group{
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.manage-event-button {
+  display: inline-flex;
+  align-content: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.button-icon {
+  height: 20px;
+  padding: 0;
+  margin: 0;
+  vertical-align: middle;
 }
