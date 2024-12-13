@@ -3,8 +3,8 @@
     color: var(--text-light-color);
 }
 
-.maps-button:hover,
-.maps-button:focus{
+.maps-button:hover:enabled,
+.maps-button:focus:enabled{
     background-color: #228B22;
     color: var(--text-light-color);
 }

@@ -8,7 +8,7 @@ const OpenInMaps = ({ location }) => {
     }
         
     return (
-        <button onClick={handleOpenMaps} className="maps-button">
+        <button onClick={handleOpenMaps} className="maps-button" disabled={!location}>
             Open in Maps
         </button>
     )
