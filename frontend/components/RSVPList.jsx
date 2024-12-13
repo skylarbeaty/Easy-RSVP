@@ -37,7 +37,6 @@ const RSVPList = ({eventId}) => {
                 <thead>
                     <tr>
                         <th>Name</th>
-                        {/* <th>Email</th> */}
                         <th>Response</th>
                         <th>Date Responded</th>
                         <th>Comment</th>
@@ -47,9 +46,8 @@ const RSVPList = ({eventId}) => {
                 {rsvps.map((rsvp) => (
                     <tr key={rsvp.id}>
                         <td>{rsvp.guestName}</td>
-                        {/* <td>Email</td> */}
                         <td>{rsvp.response}</td>
-                        <td>{rsvp.dateResponded}</td>
+                        <td>{new Date(rsvp.dateResponded).toLocaleDateString()}</td>
                         <td>{rsvp.comment}</td>
                     </tr>
                 ))}

@@ -46,6 +46,7 @@ const EventList = () => {
                     <tr>
                         <th>Title</th>
                         <th>Date</th>
+                        <th>Time</th>
                         <th>Summary</th>
                         <th>Actions</th>
                     </tr>
@@ -54,7 +55,8 @@ const EventList = () => {
                 {events.map((event) => (
                     <tr key={event.id}>
                         <td>{event.title}</td>
-                        <td>{event.dateTime}</td>
+                        <td>{new Date(event.dateTime).toLocaleDateString()}</td>
+                        <td>{new Date(event.dateTime).toLocaleTimeString()}</td>
                         <td>
                             Yes: {event.rsvpSummary.yes}, 
                             No: {event.rsvpSummary.no}, 

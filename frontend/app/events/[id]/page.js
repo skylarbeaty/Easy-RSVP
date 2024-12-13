@@ -66,8 +66,9 @@ const Event = () => {
         <section>
             <h1 className="text-center">{event.title}</h1>
             <p className="text-center">{event.description}</p>
-            <p className="text-center">Date and Time: {event.dateTime}</p>
-            <p className="text-center">Location: {event.location}</p>
+            <p className="text-center">
+                {new Date(event.dateTime).toLocaleDateString()} at {new Date(event.dateTime).toLocaleTimeString()}</p>
+            <p className="text-center">{event.location}</p>
             <div className="button-group">
                 <AddToCalendar
                     title={event.title}

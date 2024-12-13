@@ -45,8 +45,8 @@ const UserRSVPList = () => {
                     <thead>
                         <tr>
                             <th>Event Title</th>
-                            <th>Event Date</th>
-                            <th>Event Time</th>
+                            <th>Date</th>
+                            <th>Time</th>
                             <th>Response</th>
                             <th>Comment</th>
                             <th>View</th>
