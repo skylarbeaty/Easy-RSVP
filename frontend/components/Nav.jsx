@@ -17,6 +17,7 @@ const Nav = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLogout = async() => {
+    setMenuOpen(false);
     try{
       await api.post("/auth/logout");
       userUpdate(null);
@@ -42,7 +43,7 @@ const Nav = () => {
           <></>//loading
         ) : user ? (
           <>
-            <Link href="/profile" className='navbar-link'>Profile</Link>
+            <Link onClick={() => setMenuOpen(false)} href="/profile" className='navbar-link'>Profile</Link>
             <button className='navbar-button' onClick={handleLogout}>Logout</button>
           </>
         ) : (          
