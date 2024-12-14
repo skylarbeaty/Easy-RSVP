@@ -1,11 +1,11 @@
 # RSEZ
 Lightweight RSVP app that focuses on simplicity and accessibility.
 
-RSEZ makes it easy to for event organizers to share their events and for guests to RSVP without barriers. The goal is to minimize friction so people can quickly and easily respond to an invitation.
+RSEZ makes it easy for event organizers to share their events and for guests to RSVP without barriers. The goal is to minimize friction so people can quickly and easily respond to an invitation.
 
-I was inspired to make this tool by the realization that many event platforms, like social media sites, rely on users being a part of their ecosystem to participlate. After stepping away from one of the largest social media platforms, I saw how much I depended on it to learn about my firend's events. 
+I was inspired to make this tool by the realization that many event platforms, like social media sites, rely on users being a part of their ecosystem to participate. After stepping away from one of the largest social media platforms, I saw how much I depended on it to learn about my friend's events. 
 
-This app embraces accessibility and openness. Event organizers are the only ones who are required to make an account. Guests can RSVP without an account, and if they choose to creat an account late, their RSVP will be linked automatically. With RSEZ, eveyone can participate seamlessly.
+This app embraces accessibility and openness. Event organizers are the only ones who are required to make an account. Guests can RSVP without an account, and if they choose to create an account later, their RSVP will be linked automatically. With RSEZ, everyone can participate seamlessly.
 
 
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
@@ -18,16 +18,15 @@ This app embraces accessibility and openness. Event organizers are the only ones
 
 ## Key Features
 
-1. Event Creation & Sharing
-    - Organizers can create events, view incoming RSVPs, and manage the event
-    - Events create a sharable link that can be easily sent to invitees
-    - "Add to Calender" and "Open in Maps" hooks into expected functionallity
+1. Event Creation and Sharing
+    - Organizers can manage events, tracks RSVPs, and generate a sharable link for easy invites
+    - "Add to Calendar" and "Open in Maps" hooks into expected functionality
 
 2. Guest RSVP and Account Linking
     - Guests can RSVP without being logged in
     - If later they login, their RSVP seamlessly links to their profile
 
-3. Reactive Design
+3. Polished Design
     - Responsive design provides seamless experience on any platform
     - Loading pages gracefully handle asynchronous requests by showing skeleton components
 
@@ -46,27 +45,116 @@ This app embraces accessibility and openness. Event organizers are the only ones
 
 ### Backend
 
-- **Flask**: created a API backend that handles authentication and database intereactions.  
-- **SQLAlchemy**: for object relational mapping, running SQLite for development.  
-- **Python**:  
+- **Flask**: created an API backend that handles authentication and database interactions.  
+- **SQLAlchemy**: for object relational mapping. Running SQLite for development.  
+- **Python**: write the api and database models  
 
 ### Outside Tools
 
 VS Code  
-Krita  
-Iconfinder
+Node.js  
+[Krita](https://krita.org/en/) to edit the app logo  
+[Gradient Generator](https://www.joshwcomeau.com/gradient-generator/) for the css [gradient](https://github.com/skylarbeaty/Easy-RSVP/blob/main/frontend/styles/globals.css?plain=1#L64)  
+[Iconfinder](https://www.iconfinder.com/) for the corporate logos in svg format  
+[ScreenToGif](https://www.screentogif.com/) for making the gifs on this page
 
-<!-- ## Highlights
+## Highlights
 
-[lorem ipsum]
+1. **Backend Capture of Guest RSVP**  
+Once someone logs in after leaving a guest RSVP, the id of the RSVP is sent to this route. It uses session information to get the logged in user's id to update the RSVP.
 
-## Implementation Details
+```python
+# capture guest RSVP after login
+@app.route("/api/rsvps/<int:id>/capture", methods=["PATCH"])
+@login_required
+def rsvp_capture(id):
+    user_id = session.get("user_id")
+    if not user_id:
+        return jsonify({"error":"Unauthorized"}), 401
+    
+    try:
+        rsvp = RSVP.query.get(id)
+        if not RSVP:
+            return jsonify({"error":"RSVP not found"}), 404
+        
+        rsvp.guest_id = user_id
 
-[lorem ipsum]
+        db.session.commit()
+        return jsonify(rsvp.to_json()), 200
+    except Exception as e:
+        db.session.rollback()
+        app.logger.error(f"Error capturing RSVP: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+# function decorator for routes requiring login
+def login_required(func):
+    @wraps(func)
+    def decorated_function(*args, **kwargs):
+        user_id = session.get("user_id")
+        if not user_id:
+            return jsonify({"error":"Authentication required"}), 401
+        return func(*args, **kwargs)
+    return decorated_function
+```
+
+2. **Frontend Data Fetching with Context**  
+This is a snippet from [App Wrapper](frontend/components/AppWrapper.jsx) demonstrating use of React hooks and context to manage user state across the app
+```javascript
+const UserContext = React.createContext();
+// ...
+export function useUser (){
+    return useContext(UserContext);
+}
+// ...
+const AppWrapper = ({children}) => {
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() =>{
+        async function fetchUser() {
+            try{
+                // attempt to login
+                const res = await api.get("/auth/me");
+                setUser(res.user);
+
+                // handle guest RSVPs after next login/signup
+                const guestRsvpId = localStorage.getItem("guest_rsvp_id");
+                if (guestRsvpId && res.user){
+                    await api.patch(`/rsvps/${guestRsvpId}/capture`);
+                    localStorage.removeItem("guest_rsvp_id");
+                }
+            } catch (error){
+                setUser(null);
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchUser();
+    }, []);
+
+    return (
+        <UserContext.Provider value = {user}>
+            <UserUpdateContext.Provider value = {setUser}>
+                <UserLoadingContext.Provider value = {loading}>
+                    {children}
+                </UserLoadingContext.Provider>
+            </UserUpdateContext.Provider>
+        </UserContext.Provider>
+    )
+}
+```
 
 ## Possible Improvements
 
-[lorem ipsum] -->
+In order to ready this app for production there would need to be a few more steps  
+- Replace SQLite with PostgreSQL to scale to larger datasets
+- Add security features like rate limiting and stricter session management  
+- Password recovery and account deletion would ensure a complete user experience
+
+Additionally there are some features I would really love to add to this project
+- Interactive event creation page with a live preview of how the event page looks
+- Rich text options to allow for styled text and links (with appropriate warning when leaving the app)   
+- Integrated map to show event location without leaving the page
 
 ## Run it yourself
 ### Backend Setup
@@ -74,13 +162,13 @@ Iconfinder
 ```bash
 git clone https://github.com/skylarbeaty/Easy-RSVP.git
 ```
-#### 2. Create a virtual envirnment:
+#### 2. Create a virtual environment:
 ```bash
 cd Easy-RSVP/backend
 python -m venv venv
 venv\Scripts\activate #on windows
 ```
-#### 3. Install dependancies:
+#### 3. Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
@@ -94,10 +182,10 @@ Replace "your_key_here" with a secure and random string
 ```bash
 flask run
 ```
-This project is still setup for development. \
+*This project is currently setup for development.*  
 The database will be automatically setup when you run the app.
 ### Frontend Setup
-#### 1. Install dependancies:
+#### 1. Install dependencies:
 ```bash
 cd Easy-RSVP/frontend
 npm install
@@ -109,41 +197,3 @@ npm run
 #### 3. View the site
 Follow the link in the console to view the site.  
 It should be visible at [localhost:3000](http://localhost:3000)
-
-<!-- ## Run it yourself
-### Backend Setup
-```bash
-# 1. Clone the repository:
-git clone https://github.com/skylarbeaty/Easy-RSVP.git
-
-# 2. Create a virtual envirnment:
-cd Easy-RSVP/backend
-python -m venv venv
-source venv\Scripts\activate #on windows
-
-# 3. Install dependancies:
-pip install -r requirements.txt
-
-# 4. Setup envirnment 
-touch .env # or create a text file named ".env" in backend
-```
-Add this line to .env
-```
-FLASK_SECRET_KEY=your_key_here
-```
-Replace "your_key_here" with a secure and random string
-```bash
-# 5. Run the server:
-flask run
-```
-### Frontend Setup
-```bash
-# 1. Install dependancies:
-cd Easy-RSVP/frontend
-npm install
-
-# 2. run the frontend
-npm run dev
-
-# 3. Follow console link to view, or navigate to localhost:3000
-``` -->
