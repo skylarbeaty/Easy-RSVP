@@ -46,8 +46,8 @@ This app embraces accessibility and openness. Event organizers are the only ones
 ### Backend
 
 - **Flask**: created an API backend that handles authentication and database interactions.  
-- **SQLAlchemy**: for object relational mapping. Running SQLite for development.  
-- **Python**: write the api and database models  
+- **SQLAlchemy**: for object relational mapping. Running **SQLite** for development.  
+- **Python**: to write the api and database models  
 
 ### Outside Tools
 
