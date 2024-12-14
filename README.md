@@ -31,8 +31,10 @@ This app embraces accessibility and openness. Event organizers are the only ones
     - Responsive design provides seamless experience on any platform
     - Loading pages gracefully handle asynchronous requests by showing skeleton components
 
-<img src="app-captures/event-rsvp-to-sign-up-cropped.gif" alt="RSVP to sign up gif" height="400"/>
-<img src="app-captures/mobile-event-view-to-profile.gif" alt="RSVP to sign up gif" height="400"/>
+<p float="left">
+    <img src="app-captures/event-rsvp-to-sign-up-cropped.gif" alt="RSVP to sign up gif" height="550"/>
+    <img src="app-captures/mobile-event-view-to-profile.gif" alt="RSVP to sign up gif" height="550"/>
+</p>
 
 ## Tech Stack
 
@@ -47,8 +49,6 @@ This app embraces accessibility and openness. Event organizers are the only ones
 - **Flask**: created a API backend that handles authentication and database intereactions.  
 - **SQLAlchemy**: for object relational mapping, running SQLite for development.  
 - **Python**:  
-  
-Flask using Python. Running sqlchemy with an SQLite database for easy developement.
 
 ### Outside Tools
 
