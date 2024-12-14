@@ -46,6 +46,7 @@ def logout():
     session.pop("user_id", None)
     return jsonify({"message":"Logout successful"}), 200
 
+# Function decorator for routes requiring authentication
 def login_required(func):
     @wraps(func)
     def decorated_function(*args, **kwargs):

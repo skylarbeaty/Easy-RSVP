@@ -24,7 +24,7 @@ This app embraces accessibility and openness. Event organizers are the only ones
 
 2. Guest RSVP and Account Linking
     - Guests can RSVP without being logged in
-    - If later they login, their RSVP seamlessly links to their profile
+    - If they login later, their RSVP seamlessly links to their profile
 
 3. Polished Design
     - Responsive design provides seamless experience on any platform
@@ -39,14 +39,14 @@ This app embraces accessibility and openness. Event organizers are the only ones
 
 ### Frontend 
 
-- **React**: create a responsive and dynamic frontend, by taking advantage of State and Context.  
-- **Next.js**: handle routing and server side rendering  
+- **React**: creates a responsive and dynamic frontend, by taking advantage of State and Context.  
+- **Next.js**: handles routing and server side rendering  
 - **Javascript**: uses JSX extension to integrate **HTML**. Using **CSS** for styling  
 
 ### Backend
 
-- **Flask**: created an API backend that handles authentication and database interactions.  
-- **SQLAlchemy**: for object relational mapping. Running **SQLite** for development.  
+- **Flask**: helped create an API backend that handles authentication and database interactions.  
+- **SQLAlchemy**: does object relational mapping. Running **SQLite** for development.  
 - **Python**: to write the api and database models  
 
 ### Outside Tools
@@ -69,8 +69,6 @@ Once someone logs in after leaving a guest RSVP, the id of the RSVP is sent to t
 @login_required
 def rsvp_capture(id):
     user_id = session.get("user_id")
-    if not user_id:
-        return jsonify({"error":"Unauthorized"}), 401
     
     try:
         rsvp = RSVP.query.get(id)
@@ -147,7 +145,7 @@ const AppWrapper = ({children}) => {
 ## Possible Improvements
 
 In order to ready this app for production there would need to be a few more steps  
-- Replace SQLite with PostgreSQL to scale to larger datasets
+- Replace SQLite with something like PostgreSQL, to scale to larger datasets
 - Add security features like rate limiting and stricter session management  
 - Password recovery and account deletion would ensure a complete user experience
 
@@ -173,7 +171,7 @@ venv\Scripts\activate #on windows
 pip install -r requirements.txt
 ```
 #### 4. Create .env file:
-Create a file in the back called ".env" and add this line.
+Create a file in the backend called ".env" and add this line.
 ```bash
 FLASK_SECRET_KEY=your_key_here
 ```
