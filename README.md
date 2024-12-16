@@ -147,6 +147,7 @@ const AppWrapper = ({children}) => {
 In order to ready this app for production there would need to be a few more steps  
 - Replace SQLite with something like PostgreSQL, to scale to larger datasets
 - Add security features like rate limiting and stricter session management  
+- Add unit and integration testing to ensure stability  
 - Password recovery and account deletion would ensure a complete user experience
 
 Additionally there are some features I would really love to add to this project
